@@ -7,6 +7,7 @@ import { BranchType } from 'app/types/BranchType';
 import { EmployeeType } from 'app/types/EmployeeType';
 import { PositionType } from 'app/types/PositionType';
 import Swal from 'sweetalert2';
+import { UserType } from 'app/types/UserType';
 
 @Component({
   selector: 'app-kidistcomponent',
