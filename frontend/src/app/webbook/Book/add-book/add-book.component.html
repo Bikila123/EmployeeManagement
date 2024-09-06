@@ -1,0 +1,38 @@
+<main id="main" class="main">
+    <p-toast></p-toast>
+    <p>Add book</p>
+  <form [formGroup]="bookform" (ngSubmit)="onAddBook()">
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label for="title" class="form-label">Book Title<span class="asteriks">*</span></label>
+            <input type="text" formControlName="title" class="form-control" id="title" [ngClass]="{
+           'is-invalid': submitted && f['title'].errors
+         }">
+            <div *ngIf="submitted && f['title'].errors" class="invalid-feedback">
+                <div *ngIf="f['title'].errors?.['required']">
+                    Please, enter title
+                </div>
+                <div *ngIf="f['title'].errors?.['pattern']">
+                    Please enter a valid title!
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="year" class="form-label">Book Year<span class="asteriks">*</span></label>
+          <input type="text" formControlName="year" class="form-control" id="year" [ngClass]="{
+         'is-invalid': submitted && f['year'].errors
+       }">
+          <div *ngIf="submitted && f['year'].errors" class="invalid-feedback">
+              <div *ngIf="f['year'].errors?.['required']">
+                  Please, enter year
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <div class="modal-footer" style="margin-top: 5px;">
+        <p-button type="submit" icon="pi pi-plus" styleClass="p-button-sm p-button-success"
+            label="Add Book"></p-button>
+    </div>
+</form>
+</main>

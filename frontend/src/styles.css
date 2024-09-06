@@ -1,0 +1,39 @@
+/* You can add global styles to this file, and also import other style files */
+
+.ck-editor__editable_inline {
+    min-height: 200px;
+}
+.ck-powered-by {
+    display: none;
+  }
+  .is-invalid {
+    .p-dropdown { 
+      border: 1px solid red; 
+    }
+    .invalid-feedback-display {
+      display: block !important;
+    }
+}
+.readonly-style .p-dropdown {
+  background-color: lightgray;
+}
+
+.asteriks{
+  color: red;
+}
+
+@media print {
+
+    .restyle {
+      display: none;
+    }
+    #tobehidden{
+        display: none;
+    }
+    button{
+      display: none;
+    }
+    #header{
+        display: none;
+    }
+}

@@ -1,0 +1,233 @@
+<main id="main" class="main">
+    <div class="card" id="tblmu">
+        <div style="margin-top: 80px;margin-bottom: 10px;">
+            <h3 style="color: #283895; text-align: center;">Manage Menu</h3>
+        </div>
+        <div style="margin-bottom: 15px;text-align: right; margin-right: 20px;">
+            <button pButton pRipple label="Add Menu" icon="pi pi-plus" class="p-button-success p-button-sm"
+                (click)="showDialog('add', null)"></button>
+        </div>
+
+        <p-table #dt1 [value]="data" responsiveLayout="scroll" [autoLayout]="true" [loading]="loading"
+            [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [globalFilterFields]="['item_name', 'link', 'icon']">
+            [rowsPerPageOptions]="[3, 5, 10]">
+
+            <ng-template pTemplate="caption">
+                <div class="Flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <input pInputText class="cofsearch" type="text" #input
+                            (input)="dt1.filterGlobal(input.value, 'contains')" placeholder="Search Menu" />
+                    </span>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Item Name </th>
+                    <th>Link</th>
+                    <th>Icon</th>
+                    <th>Parent Item Name</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-menus>
+                <tr>
+                    <td>{{ menus.item_name }}</td>
+                    <td>{{ menus.link }}</td>
+                    <td>{{ menus.icon }}</td>
+                    <td>{{ getParentMenuName(menus.parent_item_id) }}</td>
+                    <td>{{ getRolesName(menus.role_id)}}</td>
+                    <td>
+                        <p-badge [value]="getStatus(menus.status)"
+                            severity="{{getStatusColor(menus.status)}}"></p-badge>
+                    </td>
+                    <td>
+                        <button (click)="showDialog('edit', menus)" pButton pRipple label="Update" icon="pi pi-pencil"
+                            class="p-button-sm"></button>
+                    </td>
+                </tr>
+            </ng-template>
+
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">No Menu found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <p-dialog header="Add Menu" [(visible)]="visible" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '30vw' }" [maximizable]="true">
+        <form [formGroup]="formMenu" (ngSubmit)="onAddMenu()">
+            <div class="form-group col-md-12">
+                <label for="item_name">Menu Item Name</label>
+                <input type="text" formControlName="item_name" class="form-control" id="item_name" required [ngClass]="{
+                        'is-invalid': submitted && f['item_name'].errors
+                      }" />
+                <div *ngIf="submitted && f['item_name'].errors" class="invalid-feedback">
+                    <div *ngIf="f['item_name'].errors?.['required']">
+                        Item name is required
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <label for="link">Link</label>
+                <input type="text" formControlName="link" class="form-control" id="link" required [ngClass]="{
+                        'is-invalid': submitted && f['link'].errors
+                      }" placeholder="link eg. /addrole" />
+                <div *ngIf="submitted && f['link'].errors" class="invalid-feedback">
+                    <div *ngIf="f['link'].errors?.['required']">
+                        Link is required
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label for="icon">Icon</label>
+                    <input type="text" formControlName="icon" class="form-control" id="icon" required [ngClass]="{
+                    'is-invalid': submitted && f['icon'].errors
+                  }" />
+                    <div *ngIf="submitted && f['icon'].errors" class="invalid-feedback">
+                        <div *ngIf="f['icon'].errors?.['required']">
+                            Icon is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="parent_item_id">Parent Item Name</label>
+                    <select type="text" formControlName="parent_item_id" class="form-select" id="parent_item_id"
+                        required [ngClass]="{
+                    'is-invalid': submitted && f['parent_item_id'].errors
+                  }">
+                        <option disabled>select parent item</option>
+                        <option *ngFor="let parent of parentmenusdata" value="{{parent!.id}}">
+                            {{parent!.item_name}}
+                        </option>
+                    </select>
+
+                    <div *ngIf="submitted && f['parent_item_id'].errors" class="invalid-feedback">
+                        <div *ngIf="f['parent_item_id'].errors?.['required']">
+                            Parent Item Name is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="role_id">Role</label>
+                    <select type="text" formControlName="role_id" class="form-select" id="role_id" required [ngClass]="{
+                    'is-invalid': submitted && f['role_id'].errors
+                  }">
+                        <option disabled>select role</option>
+                        <option *ngFor="let role of rolesdata" value="{{role!.id}}">
+                            {{role!.description}}
+                        </option>
+                    </select>
+
+                    <div *ngIf="submitted && f['role_id'].errors" class="invalid-feedback">
+                        <div *ngIf="f['role_id'].errors?.['required']">
+                            Role is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button style="margin-top: 7px; float: right;" type="submit" pButton pRipple label="Save"
+                    class="p-button-success p-button-sm" icon="pi pi-check"></button>
+            </div>
+        </form>
+    </p-dialog>
+    <p-dialog header="Update Menu" [(visible)]="updateVisible" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '30vw' }" [maximizable]="true">
+        <form [formGroup]="formMenuUpdate" (ngSubmit)="onUpdateMenu()">
+            <div class="form-group col-md-12">
+                <label for="item_name">Menu Item Name</label>
+                <input type="text" formControlName="item_name" class="form-control" id="item_name" required [ngClass]="{
+                        'is-invalid': submitted && f2['item_name'].errors
+                      }" />
+                <div *ngIf="submitted && f2['item_name'].errors" class="invalid-feedback">
+                    <div *ngIf="f2['item_name'].errors?.['required']">
+                        Item name is required
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <label for="link">Link</label>
+                <input type="text" formControlName="link" class="form-control" id="link" required [ngClass]="{
+                        'is-invalid': submitted && f['link'].errors
+                      }" placeholder="link eg. /addrole" />
+                <div *ngIf="submitted && f2['link'].errors" class="invalid-feedback">
+                    <div *ngIf="f2['link'].errors?.['required']">
+                        Link is required
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label for="icon">Icon</label>
+                    <input type="text" formControlName="icon" class="form-control" id="icon" required [ngClass]="{
+                    'is-invalid': submitted && f2['icon'].errors
+                  }" />
+                    <div *ngIf="submitted && f2['icon'].errors" class="invalid-feedback">
+                        <div *ngIf="f2['icon'].errors?.['required']">
+                            Icon is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="parent_item_id">Parent Item Name</label>
+                    <select type="text" formControlName="parent_item_id" class="form-select" id="parent_item_id"
+                        required [ngClass]="{
+                    'is-invalid': submitted && f2['parent_item_id'].errors
+                  }">
+                        <option disabled>select parent item</option>
+                        <option *ngFor="let parent of parentmenusdata" value="{{parent!.id}}">
+                            {{parent!.item_name}}
+                        </option>
+                    </select>
+
+                    <div *ngIf="submitted && f2['parent_item_id'].errors" class="invalid-feedback">
+                        <div *ngIf="f2['parent_item_id'].errors?.['required']">
+                            Parent Item Name is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="role_id">Role</label>
+                    <select type="text" formControlName="role_id" class="form-select" id="role_id" required [ngClass]="{
+                    'is-invalid': submitted && f2['role_id'].errors
+                  }">
+                        <option disabled>select role</option>
+                        <option *ngFor="let role of rolesdata" value="{{role!.id}}">
+                            {{role!.description}}
+                        </option>
+                    </select>
+
+                    <div *ngIf="submitted && f2['role_id'].errors" class="invalid-feedback">
+                        <div *ngIf="f2['role_id'].errors?.['required']">
+                            Role is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="role_id">Status</label>
+                    <select type="text" formControlName="status" class="form-select" id="role_id" required [ngClass]="{
+                    'is-invalid': submitted && f2['status'].errors
+                  }">
+                        <option disabled>select status</option>
+                        <option value="{{0}}"> Deactive</option>
+                        <option value="{{1}}"> Active</option>
+                    </select>
+
+                    <div *ngIf="submitted && f2['status'].errors" class="invalid-feedback">
+                        <div *ngIf="f2['status'].errors?.['required']">
+                            Status is required
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button style="margin-top: 7px; float: right;" type="submit" pButton pRipple label="Update"
+                    class="p-button-success p-button-sm" icon="pi pi-pencil"></button>
+            </div>
+        </form>
+    </p-dialog>
+</main>

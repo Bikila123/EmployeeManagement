@@ -1,0 +1,441 @@
+<main id="main" class="main">
+    <div class="card" id="tblmu">
+        <div style="margin-top: 80px;margin-bottom: 10px;">
+            <h3 style="color: #283895; text-align: center;">Manage User</h3>
+        </div>
+        <div style="margin-bottom: 15px;text-align: right; margin-right: 20px;">
+            <button pButton pRipple label="Add User" icon="pi pi-plus" class="p-button-success p-button-sm"
+                (click)="showAddDialog()"></button>
+        </div>
+        <p-table #dt1 [value]="users" responsiveLayout="scroll" [autoLayout]="true" [loading]="loading"
+            [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [globalFilterFields]="['username', 'first_name','middle_name','last_name','email','phone_number','created_by','modified_by','is_enabled']">
+            [rowsPerPageOptions]="[3, 5, 10]">
+
+            <ng-template pTemplate="caption">
+                <div class="Flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <input pInputText class="cofsearch" type="text" #input
+                            (input)="dt1.filterGlobal(input.value, 'contains')" placeholder="Search Menu" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Middle Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Enabled</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-user>
+                <tr>
+                    <td>{{user.username}}</td>
+                    <td>{{user.first_name}}</td>
+                    <td>{{user.middle_name}}</td>
+                    <td>{{user.last_name}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.phone_number}}</td>
+                    <td><p-tag [value]="getValue(user.is_enabled)" [severity]="getSeverity(user.is_enabled)"
+                            [icon]="getIcon(user.is_enabled)"></p-tag>
+                    <td><p-tag [value]="getStatusValue(user.is_locked)" [severity]="getStatusSeverity(user.is_locked)"
+                            [icon]="getIconStatus(user.is_locked)"></p-tag>
+                    </td>
+                    <td>
+                        <p-button label="Update" icon="pi pi-pencil" styleClass="p-button-sm mr-2 mb-2"
+                            (click)="showUpdateDialog(user)"></p-button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">No users found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!-- add user modal -->
+    <p-dialog header="Add User" [(visible)]="visible" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
+        [maximizable]="true">
+        <form [formGroup]="formUser" (ngSubmit)="onAddUser()">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="firstName" class="form-label">First Name<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="first_name" class="form-control" id="firstName" [ngClass]="{
+                   'is-invalid': submitted && f['first_name'].errors
+                 }">
+                    <div *ngIf="submitted && f['first_name'].errors" class="invalid-feedback">
+                        <div *ngIf="f['first_name'].errors?.['required']">
+                            Please, enter user's first name
+                        </div>
+                        <div *ngIf="f['first_name'].errors?.['pattern']">
+                            Please enter a valid first name!
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="middle_name" class="form-label">Middle Name<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="middle_name" class="form-control" id="middle_name" [ngClass]="{
+                      'is-invalid': submitted && f['middle_name'].errors
+                    }" required>
+                    <div *ngIf="submitted && f['middle_name'].errors" class="invalid-feedback">
+                        <div *ngIf="f['middle_name'].errors?.['required']">
+                            Please, enter user's middle name
+                        </div>
+                        <div *ngIf="f['middle_name'].errors?.['pattern']">
+                            Please enter a valid middle name!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="yourLastName" class="form-label">Last Name<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="last_name" class="form-control" id="yourLastName" [ngClass]="{
+                      'is-invalid': submitted && f['last_name'].errors
+                    }" required>
+                    <div *ngIf="submitted && f['last_name'].errors" class="invalid-feedback">
+                        <div *ngIf="f['last_name'].errors?.['required']">
+                            Please, enter user's last name
+                        </div>
+                        <div *ngIf="f['last_name'].errors?.['pattern']">
+                            Please enter a valid last name!
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="username" class="form-label">AD username<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="username" class="form-control" id="username" [ngClass]="{
+                      'is-invalid': submitted && f['username'].errors || userexist
+                    }" required>
+                    <div *ngIf="userexist" class="invalid-feedback">
+                        User with this username already exists.
+                    </div>
+                    <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                        <div *ngIf="f['username'].errors?.['required']">
+                            AD username is required.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="empId" class="form-label">Employee ID<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="empId" class="form-control" id="empId" [ngClass]="{
+                      'is-invalid': submitted && f['empId'].errors || empIdexists || !empIdHrexists
+                    }" required>
+                    <div *ngIf="empIdexists" class="invalid-feedback">
+                        User with this employee ID already exists.
+                    </div>
+                    <div *ngIf="!empIdHrexists" class="invalid-feedback">
+                        Employee with this employee ID does not exist.
+                    </div>
+                    <div *ngIf="submitted && f['empId'].errors" class="invalid-feedback">
+                        <div *ngIf="f['empId'].errors?.['required']">
+                            Employee ID is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="email" class="form-label">Email<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="email" class="form-control" id="email" [ngClass]="{
+                      'is-invalid': submitted && f['email'].errors || emailexist
+                    }" required>
+                    <div *ngIf="emailexist" class="invalid-feedback">
+                        User with this email already exists.
+                    </div>
+                    <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                        <div *ngIf="f['email'].errors?.['required']">
+                            email is required.
+                        </div>
+                        <div *ngIf="f['email'].errors?.['email']">
+                            Please enter a valid email!
+                         </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="yourPhone" class="form-label">Phone Number<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="phone_number" class="form-control" id="yourPhone" [ngClass]="{
+                      'is-invalid': submitted && f['phone_number'].errors || phoneexist
+                    }" required>
+                    <div *ngIf="phoneexist" class="invalid-feedback">
+                        User with this phone number already registered!
+                    </div>
+                    <div *ngIf="submitted && f['phone_number'].errors" class="invalid-feedback">
+                        <div *ngIf="f['phone_number'].errors?.['required']">
+                            Phone number is required!
+                        </div>
+                        <div *ngIf="f['phone_number'].errors?.['pattern']">
+                            Please enter a valid phone number which starts with 09, 07 or +251!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="yourPassword" class="form-label">Password<span class="asteriks">*</span></label>
+                    <input type="password" class="form-control" id="yourPassword" formControlName="password" [ngClass]="{
+                      'is-invalid': submitted && f['password'].errors
+                    }" required>
+                    <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                        <div *ngIf="f['password'].errors?.['required']">
+                            Please enter your password!
+                        </div>
+                        <div *ngIf="f['password'].errors?.['pattern']">
+                            password should contain minimum of 8 char with atleast 1 capital char, 1 special
+                            char and one digit
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="yourConfirmPassword" class="form-label">Confirm password<span class="asteriks">*</span></label>
+                    <input type="password" class="form-control" id="yourConfirmPassword"
+                        formControlName="confirmpassword" [ngClass]="{
+                       'is-invalid': submitted && f['confirmpassword'].errors || f['confirmpassword'].errors?.['confirmedValidator']
+                     }" required>
+                    <div class="invalid-feedback" *ngIf="f['confirmpassword'].errors?.['confirmedValidator']">
+                        Password and Confirm Password must be match.</div>
+                    <div *ngIf="submitted && f['confirmpassword'].errors" class="invalid-feedback">
+                        <div *ngIf="f['confirmpassword'].errors?.['required']">
+                            Please enter your Confirm Password!
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="row">
+                <!-- <div class="form-group col-md-6">
+                    <label for="branch" class="form-label">Branch<span class="asteriks">*</span></label>
+                    <p-dropdown formControlName="branch_id" [options]="units" optionLabel="name" optionValue="id"
+                        [virtualScroll]="true" [virtualScrollItemSize]="38" placeholder="Select branch" [filter]="true"
+                        [appendTo]="'body'" [style]="{'width':'100%'}" [ngClass]="{
+                    'is-invalid': submitted && f['branch_id'].errors
+                  }"></p-dropdown>
+                    <div *ngIf="submitted && f['branch_id'].errors" class="invalid-feedback">
+                        <div *ngIf="f['branch_id'].errors?.['required']">
+                            Branch is required!
+                        </div>
+                    </div>
+                </div> -->
+                <div class="form-group col-md-6">
+                    <label for="role_id" class="form-label">Role<span class="asteriks">*</span></label>
+                    <p-dropdown formControlName="role_id" [options]="rolesdata" optionLabel="description" optionValue="id"
+                    [virtualScroll]="true" [virtualScrollItemSize]="38" placeholder="Select role" [filter]="true"
+                    [appendTo]="'body'"
+                    [style]="{'width':'100%'}" [ngClass]="{
+                    'is-invalid': submitted && f['role_id'].errors
+                  }"></p-dropdown>
+
+                    <div *ngIf="submitted && f['role_id'].errors" class="invalid-feedback">
+                        <div *ngIf="f['role_id'].errors?.['required']">
+                            Role is required
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="form-group col-md-6">
+                    <label for="jobPosition" class="form-label">Job Position</label>
+                    <p-dropdown formControlName="position_id" [options]="positions" optionLabel="title" optionValue="id"
+                        [virtualScroll]="true" [virtualScrollItemSize]="38" placeholder="Select job position"
+                        [filter]="true" [appendTo]="'body'" [style]="{'width':'100%'}" [ngClass]="{
+                    'is-invalid': submitted && f['position_id'].errors
+                  }"></p-dropdown>
+                    <div *ngIf="submitted && f['position_id'].errors" class="invalid-feedback">
+                        <div *ngIf="f['position_id'].errors?.['required']">
+                            Job Position is required!
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+
+            <div class="modal-footer" style="margin-top: 5px;">
+                <p-button type="submit" icon="pi pi-plus" styleClass="p-button-sm p-button-success"
+                    label="Add User"></p-button>
+            </div>
+        </form>
+    </p-dialog>
+
+    <!-- update user modal -->
+    <p-dialog header="Update User" [(visible)]="updateVisible" [breakpoints]="{ '960px': '75vw' }"
+        [style]="{ width: '30vw' }" [maximizable]="true">
+        <form [formGroup]="formUserUpdate" (ngSubmit)="onUpdateUser()">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="firstName" class="form-label">First Name<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="first_name" class="form-control" id="firstName" [ngClass]="{
+                'is-invalid':submitted && f['first_name'].errors
+              }"required>
+                    <div *ngIf="updatesubmitted && ftwo['first_name'].errors" class="invalid-feedback">
+                        <div *ngIf="ftwo['first_name'].errors?.['required']">
+                            Please, enter user's first name
+                        </div>
+                        <div *ngIf="ftwo['first_name'].errors?.['pattern']">
+                            Please enter a valid first name!
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="middle_name" class="form-label">Middle Name<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="middle_name" class="form-control" id="middle_name" [ngClass]="{
+                   'is-invalid': updatesubmitted && ftwo['middle_name'].errors
+                 }" required>
+                    <div *ngIf="updatesubmitted && ftwo['middle_name'].errors" class="invalid-feedback">
+                        <div *ngIf="ftwo['middle_name'].errors?.['required']">
+                            Please, enter user's middle name
+                        </div>
+                        <div *ngIf="ftwo['middle_name'].errors?.['pattern']">
+                            Please enter a valid middle name!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="yourLastName" class="form-label">Last Name<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="last_name" class="form-control" id="yourLastName" [ngClass]="{
+                   'is-invalid': updatesubmitted && ftwo['last_name'].errors
+                 }" required>
+                    <div *ngIf="updatesubmitted && ftwo['last_name'].errors" class="invalid-feedback">
+                        <div *ngIf="ftwo['last_name'].errors?.['required']">
+                            Please, enter user's last name
+                        </div>
+                        <div *ngIf="ftwo['last_name'].errors?.['pattern']">
+                            Please enter a valid last name!
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="empId" class="form-label">Employee ID<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="empId" class="form-control" id="empId" [ngClass]="{
+                      'is-invalid': updatesubmitted && ftwo['empId'].errors ||  !empIdHrexists || empIdexists
+                    }" required>
+                    <div *ngIf="empIdexists" class="invalid-feedback">
+                        User with this employee ID already exists.
+                    </div>
+                    <div *ngIf="!empIdHrexists" class="invalid-feedback">
+                        Employee with this employee ID does not exist.
+                    </div>
+                    <div *ngIf="updatesubmitted && ftwo['empId'].errors" class="invalid-feedback">
+                        <div *ngIf="ftwo['empId'].errors?.['required']">
+                            Employee ID is required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="email" class="form-label">Email<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="email" class="form-control" id="email" [ngClass]="{
+                   'is-invalid': updatesubmitted && ftwo['email'].errors || emailexist
+                 }" required>
+                    <div *ngIf="emailexist" class="invalid-feedback">
+                        User with this email already exists.
+                    </div>
+                    <div *ngIf="updatesubmitted && ftwo['email'].errors" class="invalid-feedback">
+                        <div *ngIf="ftwo['email'].errors?.['required']">
+                            email is required.
+                        </div>
+                        <div *ngIf="ftwo['email'].errors?.['email']">
+                            Please enter a valid email!
+                         </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="yourPhone" class="form-label">Phone Number<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="phone_number" class="form-control" id="yourPhone" [ngClass]="{
+                        'is-invalid': updatesubmitted && ftwo['phone_number'].errors || phoneexist
+                      }">
+                    <div *ngIf="phoneexist" class="invalid-feedback">
+                        User with this phone number already registered!
+                    </div>
+                    <div *ngIf="updatesubmitted && ftwo['phone_number'].errors" class="invalid-feedback">
+                        <div *ngIf="ftwo['phone_number'].errors?.['required']">
+                            Phone number is required!
+                        </div>
+                        <div *ngIf="ftwo['phone_number'].errors?.['pattern']">
+                            Please enter a valid phone number which starts with 09, 07 or +251!
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!-- <div class="form-group col-md-6">
+                    <label for="branch" class="form-label">Branch<span class="asteriks">*</span></label>
+                    <p-dropdown formControlName="branch_id" [options]="units" optionLabel="name" optionValue="id"
+                        [virtualScroll]="true" [virtualScrollItemSize]="38" placeholder="Select branch" [filter]="true"
+                        [appendTo]="'body'" [style]="{'width':'100%'}" [ngClass]="{
+                    'is-invalid': updatesubmitted && ftwo['branch_id'].errors
+                  }"></p-dropdown>
+                    <div *ngIf="updatesubmitted && ftwo['branch_id'].errors" class="invalid-feedback">
+                        <div *ngIf="ftwo['branch_id'].errors?.['required']">
+                            Branch is required!
+                        </div>
+                    </div>
+                </div> -->
+                <div class="form-group col-md-6">
+                    <label for="role_id" class="form-label">Role<span class="asteriks">*</span></label>
+                    <p-dropdown formControlName="role_id" [options]="rolesdata" optionLabel="description" optionValue="id"
+                    [virtualScroll]="true" [virtualScrollItemSize]="38" placeholder="Select role" [filter]="true"
+                    [appendTo]="'body'"
+                    [style]="{'width':'100%'}" [ngClass]="{
+                    'is-invalid': updatesubmitted && ftwo['role_id'].errors
+                  }"></p-dropdown>
+
+                    <div *ngIf="updatesubmitted && ftwo['role_id'].errors" class="invalid-feedback">
+                        <div *ngIf="ftwo['role_id'].errors?.['required']">
+                            Role is required
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="form-group col-md-6">
+                    <label for="jobPosition" class="form-label">Job Position</label>
+                    <p-dropdown formControlName="position_id" [options]="positions" optionLabel="title" optionValue="id"
+                        [virtualScroll]="true" [virtualScrollItemSize]="38" placeholder="Select job position"
+                        [filter]="true" [appendTo]="'body'" [style]="{'width':'100%'}" [ngClass]="{
+                    'is-invalid': updatesubmitted && ftwo['position_id'].errors
+                  }"></p-dropdown>
+                    <div *ngIf="updatesubmitted && ftwo['position_id'].errors" class="invalid-feedback">
+                        <div *ngIf="ftwo['position_id'].errors?.['required']">
+                            Job Position is required!
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="is_enabled">Is enabled</label>
+
+                    <select formControlName="is_enabled" id="is_enabled" class="form-select formgrp"
+                        appearance="outline" [ngClass]="{
+                                            'is-invalid': updatesubmitted && ftwo['is_enabled'].errors
+                                            }">
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="is_locked">User Status</label>
+
+                    <select formControlName="is_locked" id="is_locked" class="form-select formgrp" appearance="outline"
+                        [ngClass]="{
+                                            'is-invalid': updatesubmitted && ftwo['is_locked'].errors
+                                            }">
+                        <option value="1">Locked</option>
+                        <option value="0">Active</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <p-button type="submit" icon="pi pi-pencil" styleClass="p-button-sm" label="Update User"></p-button>
+            </div>
+        </form>
+    </p-dialog>
+
+</main>

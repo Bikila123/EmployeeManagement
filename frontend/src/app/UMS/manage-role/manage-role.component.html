@@ -1,0 +1,116 @@
+<main id="main" class="main">
+    <div class="card" style="margin: auto">
+        <div style="margin-top: 40px;margin-bottom: 20px;">
+            <h3 style="color: #283895; text-align: center;">Roles</h3>
+        </div>
+        <div style="margin-left: 15%;margin-right: 15%;">
+
+            <p-table #dt1 [value]="data" dataKey="id" [globalFilterFields]="['description', 'status']"
+                responsiveLayout="scroll" [autoLayout]="true" [loading]="loading" [paginator]="true" [rows]="5"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[3, 5, 10]">
+
+                <ng-template pTemplate="caption">
+                    <div class="Flex">
+                        <p-button label="Add Role" icon="pi pi-plus" styleClass="p-button-sm p-button-success"
+                            (click)="showDialog('add', null)"></p-button>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText class="cofsearch" type="text" #input
+                                (input)="dt1.filterGlobal(input.value, 'contains')" />
+                        </span>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>ID </th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-role>
+                    <tr>
+                        <td>{{ role.id }}</td>
+                        <td>{{ role.description }}</td>
+                        <td><p-tag [value]="getValue(role.status)" [severity]="getSeverity(role.status)"></p-tag></td>
+                        <td>
+                            <p-button label="Update" icon="pi pi-pencil" styleClass="p-button-sm"
+                                (click)="showDialog('edit', role)"></p-button>
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="4">No Roles found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+    <!-- update modal -->
+    <p-dialog header="Update Role" [(visible)]="updateVisible" [breakpoints]="{ '960px': '75vw' }"
+        [style]="{ width: '30vw' }" [maximizable]="true">
+
+        <form [formGroup]="formRoleUpdate" (ngSubmit)="onUpdateRole()">
+            <input type="hidden" formControlName="id" class="form-control" id="id" />
+            <div class="form-group col-md-12">
+                <label for="description">Role Description</label>
+                <input type="text" formControlName="description" class="form-control" id="description" required
+                    [ngClass]="{'is-invalid': submitted && ftwo['description'].errors }" />
+                <div *ngIf="submitted && ftwo['description'].errors" class="invalid-feedback">
+                    <div *ngIf="ftwo['description'].errors?.['required']">
+                        Role description is required
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="status">Role Status</label>
+
+                <select formControlName="status" id="status" class="form-select formgrp" appearance="outline" [ngClass]="{
+                                        'is-invalid': submitted && ftwo['status'].errors
+                                        }">
+                    <option value="1">Active</option>
+                    <option value="0">Deactive</option>
+                </select>
+                <div *ngIf="submitted && ftwo['status'].errors" class="invalid-feedback">
+                    <div *ngIf="ftwo['status'].errors?.['required']">
+                        Role status is required
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <p-button type="submit" icon="pi pi-pencil" styleClass="p-button-sm" label="Update Role"></p-button>
+            </div>
+        </form>
+    </p-dialog>
+    <!-- Add Modal -->
+    <p-dialog header="Add Role" [(visible)]="visible" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '30vw' }"
+        [maximizable]="true">
+
+        <form [formGroup]="formRole" (ngSubmit)="onAddRole()">
+
+            <div class="form-group col-md-12">
+                <label for="description">Role Description</label>
+                <input type="text" formControlName="description" class="form-control" id="description" required
+                    [ngClass]="{'is-invalid': submitted && f['description'].errors
+                             }" />
+                <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+                    <div *ngIf="f['description'].errors?.['required']">
+                        Role description is required
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <p-button type="submit" icon="pi pi-plus" styleClass="p-button-sm p-button-success" label="Add Role"></p-button>
+            </div>
+        </form>
+    </p-dialog>
+
+</main>

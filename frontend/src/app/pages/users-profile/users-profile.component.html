@@ -1,0 +1,92 @@
+<main id="main" class="main">
+   <div class="pagetitle">
+      <h1>Settings</h1>
+      <nav>
+         <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+            <li class="breadcrumb-item">Users</li>
+         </ol>
+      </nav>
+   </div>
+   <section class="section profile">
+      <div class="row">
+         <div class="col-xl-8">
+            <div class="card">
+               <div class="card-body pt-3">
+                  <ul class="nav nav-tabs nav-tabs-bordered">
+                     <li class="nav-item"> <button class="nav-link active" data-bs-toggle="tab"
+                           data-bs-target="#profile-change-password">Change Password</button></li>
+                  </ul>
+                  <div class="tab-content pt-2">
+
+                     <div class="tab-pane fade show active pt-3" id="profile-change-password">
+                        <form class="needs-validation" [formGroup]="form" (ngSubmit)="changePassword()"required>
+                           <div class="col-12">
+                              <label for="youroldPassword" class="form-label">Old Password<span class="asteriks">*</span></label>
+                              <input type="password" [(ngModel)]="oldPass" formControlName="oldPassword"
+                                 class="form-control" id="youroldPassword" [ngClass]="{
+                                        'is-invalid': submitted && f['oldPassword'].errors}"
+                                 (keypress)="oldpassFilled($event)" required>
+
+                              <div *ngIf="submitted && f['oldPassword'].errors" class="invalid-feedback">
+                                 <div *ngIf="f['oldPassword'].errors?.['required']">
+                                    Please enter your old password!
+                                 </div>
+                              </div>
+                              <div *ngIf="oldpassworderror" style="color: red; font-size: small;">
+                                 Your old password is not correct
+                              </div>
+                           </div>
+
+                           <div class="col-12">
+                              <label for="yournewPassword" class="form-label">New Password<span class="asteriks">*</span></label>
+                              <input type="password" [(ngModel)]="newPass" name="newPassword" class="form-control"
+                                 id="yournewPassword" formControlName="newPassword" [ngClass]="{
+                                          'is-invalid': submitted && f['newPassword'].errors}"
+                                 (keypress)="newpassFilled($event)" required>
+                              <div *ngIf="submitted && f['newPassword'].errors" class="invalid-feedback">
+                                 <div *ngIf="f['newPassword'].errors?.['required']">
+                                    Please enter your new password!
+                                 </div>
+                                 <div *ngIf="f['newPassword'].errors?.['pattern']">
+                                    New password should contain atleast 1 capital char, 1
+                                    special char and one digit!
+                                 </div>
+                                 <div *ngIf="f['newPassword'].errors?.['minlength']">
+                                    New password should contain minimum of 8 characters!
+                                 </div>
+                                 <div *ngIf="f['newPassword'].errors?.['maxlength']">
+                                    New password should not contain more than 16 characters!
+                                 </div>
+                              </div>
+                              <div *ngIf="isSame==true" style="color: red; font-size: small;">
+                                 Your new password should not be the same with your old password!
+                              </div>
+                           </div>
+                           <div class="col-12">
+                              <label for="yourconfirmPassword" class="form-label">Confirm New Password<span class="asteriks">*</span></label>
+                              <input type="password" name="confirmPassword" class="form-control"
+                                 id="yourconfirmPassword" formControlName="confirmPassword" [ngClass]="{
+                                     'is-invalid': submitted && f['confirmPassword'].errors || f['confirmPassword'].errors?.['confirmedValidator']
+                                   }" required>
+                              <div class="invalid-feedback" *ngIf="f['confirmPassword'].errors?.['confirmedValidator']">
+                                 New password and confirm password must be match.
+                              </div>
+                              <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">
+                                 <div *ngIf="f['confirmPassword'].errors?.['required']">
+                                    Please enter confirm new password!
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-12" style="margin-top: 10px;">
+                              <button type="submit" class="btn btn-primary">Change Password</button>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+</main>

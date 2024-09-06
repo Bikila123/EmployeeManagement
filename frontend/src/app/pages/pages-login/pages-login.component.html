@@ -1,0 +1,89 @@
+<main class="context">
+   <div class="container">
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+         <div class="container">
+           
+            <div class="row justify-content-center">
+               <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                  <div class="card mb-3">
+                     <div class="card-body">
+                       
+                        <div class="pt-4 pb-2">
+                          <a routerLink="/webhome"><img src="../../../assets/img/empicon.png" style="width: 100%; height:200px" alt=""> <span class="d-none d-lg-block"></span> </a>
+                           <h5 class="card-title text-center pb-0 fs-4">Employee Managment</h5>
+                           <p-toast></p-toast>
+                           <p class="text-center small">Enter your username & password to login</p>
+                        </div>
+                        <p-messages severity="error" *ngIf="showErrorMessage" [(value)]="sessionMessage"></p-messages>
+                        <form class="row g-3 needs-validation" novalidate [formGroup]="form" (ngSubmit)="onSubmit()">
+                           <div class="col-12">
+                              <label for="yourUsername" class="form-label">Username<span class="asteriks">*</span></label>
+                              <div class="input-group has-validation">
+                                 <!-- <span class="input-group-text" id="inputGroupPrepend">@</span>  -->
+                                 <input type="text" name="username" formControlName="username" id="yourUsername"
+                                 (keypress)="filled($event)"
+                                 [ngClass]="{
+                                   'is-invalid': submitted && f['username'].errors
+                                 }"
+                                  class="form-control" required>
+                                      <div class="invalid-feedback">Please enter your username.</div>
+                              </div>
+                           </div>
+                           <div class="col-12">
+                              <label for="yourPassword" class="form-label">Password<span class="asteriks">*</span></label>
+                               <input type="password" name="password" class="form-control"
+                               (keypress)="filled($event)"
+                               [ngClass]="{
+                                'is-invalid': submitted && f['password'].errors
+                              }"
+                                formControlName="password"
+                                id="yourPassword" required>
+                              <div class="invalid-feedback">Please enter your password!</div>
+                           </div>
+                           <div *ngIf=" usernamePassError" style="color:red;">
+                             <p>Incorrect phone number or password!</p>
+                           </div>
+                           <!-- <div class="col-12">
+                             <p class="small mb-0"><a routerLink="/forgotpasswordbyemail">Forgot Password?</a></p>
+                           </div> -->
+                           <div class="col-12"> 
+                             <button  class="btn btn-primary w-100" type="submit">{{logintext}}</button>
+                          </div>
+                           <!-- <div class="col-12">
+                              <p class="small mb-0"><span>Don't have account?</span> <a routerLink="/pages-register">Sign up</a></p>
+                           </div> -->
+                        </form>
+                     </div>
+                  </div>
+                  <div class="credits">
+                    Copyright &copy; {{currentYear}}, Awash Bank.
+                    All rights reserved.
+                 </div>
+               </div>
+            </div>
+         </div>
+      </section>
+      <p-confirmDialog>
+        <ng-template pTemplate="message" let-message>
+            <div class="flex flex-column align-items-center w-full gap-3 border-bottom-1 surface-border">
+                <i class="pi pi-exclamation-circle text-6xl text-primary-500"></i>
+                <p>{{ message.message }}</p>
+            </div>
+        </ng-template>
+    </p-confirmDialog>
+   </div>
+</main>
+<div class="area" >
+     <ul class="circles">
+             <li></li>
+             <li></li>
+             <li></li>
+             <li></li>
+             <li></li>
+             <li></li>
+             <li></li>
+             <li></li>
+             <li></li>
+             <li></li>
+     </ul>
+</div >

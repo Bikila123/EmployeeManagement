@@ -1,0 +1,35 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+  }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    margin-right: 8px;
+  }
+
+  #tblmu{
+    width: auto;
+    /* max-width: 100%; */
+   }
+
+   .Flex{
+    display: flex; 
+   justify-content: space-between;
+}
+
+.cofsearch
+{
+  border: 1px solid #7fcdee;
+    border-radius: 7px;
+    padding: 9px;
+}
+
+.p-button-sm {
+  font-size: 16px;
+  /* Adjust the font size as needed */
+  padding: 0.25rem 0.5rem;
+  /* Adjust padding for a smaller size */
+}

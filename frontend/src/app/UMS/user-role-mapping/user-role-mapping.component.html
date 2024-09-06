@@ -1,0 +1,142 @@
+<main id="main" class="main">
+    <p-toast></p-toast>
+    <div class="card" id="tblmu">
+        <div style="margin-top: 80px;margin-bottom: 10px;">
+            <h3 style="color: #283895; text-align: center;">User Role Mapping</h3>
+        </div>
+        <div style="margin-bottom: 15px;text-align: right; margin-right: 20px;">
+            <button pButton pRipple label="Add User Role Mapping" icon="pi pi-plus" class="p-button-success p-button-sm"
+                (click)="showDialog('add', null)"></button>
+        </div>
+ 
+        <p-table #dt1 [value]="data" responsiveLayout="scroll" [autoLayout]="true" [loading]="loading"
+            [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [globalFilterFields]="['username', 'description', 'id']">
+            [rowsPerPageOptions]="[3, 5, 10]">
+
+            <ng-template pTemplate="caption">
+                <div class="Flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <input pInputText class="cofsearch" type="text" #input
+                            (input)="dt1.filterGlobal(input.value, 'contains')" placeholder="Search Username" />
+                    </span>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Id </th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data>
+                <tr>
+                    <td>{{ data.id }}</td>
+                    <td>{{ data.username }}</td>
+                    <td>{{ data.description }}</td>
+                    <td>
+                        <button (click)="showDialog('edit', data)" pButton pRipple label="Update" icon="pi pi-pencil"
+                            class="p-button-sm" style="margin-right: 3px;"></button>
+                        <button (click)="showDialog('delete', data)" severity="danger" pButton pRipple label="Delete" icon="pi pi-trash"
+                        class="p-button-danger p-button-sm"></button>
+
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="7">No User Role Mapping Found.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+     <p-dialog header="Add User Role Mapping" [(visible)]="visible" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }" [maximizable]="true">
+        <form [formGroup]="formUserRole">
+            <div class="form-group col-md-12">
+                    <label for="username">Username<span class="asteriks">*</span></label>
+                    <p-dropdown formControlName="user_id" [options]="usersdata" optionLabel="username" optionValue="id"
+                    [virtualScroll]="true" [virtualScrollItemSize]="38" placeholder="Select username" [filter]="true"
+                    [style]="{'width':'100%'}" [ngClass]="{
+                    'is-invalid': submitted && f['user_id'].errors
+                  }"></p-dropdown>
+
+                    <div *ngIf="submitted && f['user_id'].errors" class="invalid-feedback">
+                        <div *ngIf="f['user_id'].errors?.['required']">
+                            username is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="role_id">Role<span class="asteriks">*</span></label>
+                    <p-dropdown formControlName="role_id" [options]="rolesdata" optionLabel="description" optionValue="id"
+                    [virtualScroll]="true" [virtualScrollItemSize]="38" placeholder="Select role" [filter]="true"
+                    [appendTo]="'body'"
+                    [style]="{'width':'100%'}" [ngClass]="{
+                    'is-invalid': submitted && f['role_id'].errors
+                  }"></p-dropdown>
+
+                    <div *ngIf="submitted && f['role_id'].errors" class="invalid-feedback">
+                        <div *ngIf="f['role_id'].errors?.['required']">
+                            Role is required
+                        </div>
+                    </div>
+                </div>
+            <div style="float: right;">
+                <button style="margin-top: 7px; margin-right: 5px;" pButton pRipple label="Cancel"
+                class="p-button-danger p-button-sm" icon="pi pi-times" (click)="clearForm()"></button>
+                <button style="margin-top: 7px;" type="submit" (click)="onAddUserRole()" pButton pRipple label="Save"
+                    class="p-button-success p-button-sm" icon="pi pi-check"></button>
+            </div>
+        </form>
+    </p-dialog> 
+    <p-dialog header="Update User Role Mapping" [(visible)]="updateVisible" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '30vw' }" [maximizable]="true">
+        <form [formGroup]="formUserRoleUpdate">
+            <div class="form-group col-md-12">
+                    <label for="username">Username</label>
+                    <p-dropdown formControlName="user_id" [options]="usersdata" optionLabel="username" optionValue="id"
+                    [virtualScroll]="true" [virtualScrollItemSize]="38" placeholder="Select username" [filter]="true"
+                    [style]="{'width':'100%'}" [ngClass]="{
+                    'is-invalid': submitted && f2['user_id'].errors
+                  }"></p-dropdown>
+
+                    <div *ngIf="submitted && f2['user_id'].errors" class="invalid-feedback">
+                        <div *ngIf="f2['user_id'].errors?.['required']">
+                            username is required
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="role_id">Role</label>
+                    <p-dropdown formControlName="role_id" [options]="rolesdata" optionLabel="description" optionValue="id"
+                    [virtualScroll]="true" [virtualScrollItemSize]="38" placeholder="Select role" [filter]="true"
+                    [appendTo]="'body'"
+                    [style]="{'width':'100%'}" [ngClass]="{
+                    'is-invalid': submitted && f2['role_id'].errors
+                  }"></p-dropdown>
+
+                    <div *ngIf="submitted && f2['role_id'].errors" class="invalid-feedback">
+                        <div *ngIf="f2['role_id'].errors?.['required']">
+                            Role is required
+                        </div>
+                    </div>
+                </div>
+            <div style="float: right;">
+                <button style="margin-top: 7px; margin-right: 5px;" pButton pRipple label="Cancel"
+                class="p-button-danger p-button-sm" icon="pi pi-times" (click)="clearUpdateForm()"></button>
+                <button style="margin-top: 7px;" type="submit" pButton pRipple label="Save"
+                    class="p-button-success p-button-sm" icon="pi pi-check" (click)="onUpdateUserRole()"></button>
+            </div>
+        </form>
+    </p-dialog> 
+    <p-confirmDialog>
+        <ng-template pTemplate="message" let-message>
+            <div class="flex flex-column align-items-center w-full gap-3 border-bottom-1 surface-border">
+                <i class="pi pi-exclamation-circle text-6xl text-primary-500"></i>
+                <p>{{ message.message }}</p>
+            </div>
+        </ng-template>
+    </p-confirmDialog>
+</main>

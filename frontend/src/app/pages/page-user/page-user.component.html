@@ -1,0 +1,120 @@
+<main id="main" class="main">
+    <div class="container">
+        <div class="card">
+            <div class="card-title">
+                <h5 class="text-center pb-0 fs-4">Create a User</h5>
+                <p class="text-center small">Enter user details to create account</p>
+            </div>
+            <div class="card-body">
+                <form class="row g-3 needs-validation" [formGroup]="form" (ngSubmit)="addUser()">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" name="first_name" formControlName="first_name" class="form-control"
+                                id="firstName" [ngClass]="{
+                                   'is-invalid': submitted && f['first_name'].errors
+                                 }" required>
+                            <div class="invalid-feedback">Please, enter user's first name</div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="yourLastName" class="form-label">Last Name</label>
+                            <input type="text" name="name" formControlName="last_name" class="form-control"
+                                id="yourLastName" [ngClass]="{
+                                      'is-invalid': submitted && f['last_name'].errors
+                                    }" required>
+                            <div class="invalid-feedback">Please, enter user's last name</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="role_id" class="form-label">Role</label>
+                            <select formControlName="role_id" id="role_id" class="form-select " appearance="outline"
+                                [ngClass]="{
+                                    'is-invalid': submitted && f['role_id'].errors
+                                  }" required>
+                                <option>select role</option>
+                                <option *ngFor="let req of roles" value="{{req!.id}}">
+                                    {{req!.description}}
+                                </option>
+                                <div class="invalid-feedback">Please, select user role</div>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" formControlName="username" name="username" class="form-control"
+                                id="username" [ngClass]="{
+                                      'is-invalid': submitted && f['username'].errors || emailexist
+                                    }" required>
+                            <div *ngIf="emailexist" class="invalid-feedback">
+                                User with this username already exists.
+                            </div>
+                            <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+                                <div *ngIf="f['username'].errors?.['required']">
+                                    Username is required.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="yourPhone" class="form-label">Phone Number</label>
+                            <input type="text" formControlName="phone_number" name="phone_number" class="form-control"
+                                id="yourPhone" [ngClass]="{
+                                      'is-invalid': submitted && f['phone_number'].errors || phoneexist
+                                    }" required>
+                            <div *ngIf="phoneexist" class="invalid-feedback">
+                                User with this phone number already registered!
+                            </div>
+                            <div *ngIf="submitted && f['phone_number'].errors" class="invalid-feedback">
+                                <div *ngIf="f['phone_number'].errors?.['required']">
+                                    Phone number is required!
+                                </div>
+                                <div *ngIf="f['phone_number'].errors?.['pattern']">
+                                    Please enter a valid phone number!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="yourPassword" class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" id="yourPassword"
+                                formControlName="password" [ngClass]="{
+                                      'is-invalid': submitted && f['password'].errors
+                                    }" required>
+                            <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                                <div *ngIf="f['password'].errors?.['required']">
+                                    Please enter your password!
+                                </div>
+                                <div *ngIf="f['password'].errors?.['pattern']">
+                                    password should contain minimum of 8 char with atleast 1 capital char, 1 special
+                                    char and one digit
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="yourConfirmPassword" class="form-label">Confirm password</label>
+                            <input type="password" name="confirmpassword" class="form-control" id="yourConfirmPassword"
+                                formControlName="confirmpassword" [ngClass]="{
+                                       'is-invalid': submitted && f['confirmpassword'].errors || f['confirmpassword'].errors?.['confirmedValidator']
+                                     }" required>
+                            <div class="invalid-feedback" *ngIf="f['confirmpassword'].errors?.['confirmedValidator']">
+                                Password and Confirm Password must be match.</div>
+                            <div *ngIf="submitted && f['confirmpassword'].errors" class="invalid-feedback">
+                                <div *ngIf="f['confirmpassword'].errors?.['required']">
+                                    Please enter your Confirm Password!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-left: 260px;">
+                        <button type="submit" class="btn btn-primary create w-25 "
+                            style="background-color: #F88F33;border: none;">Add User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>

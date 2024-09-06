@@ -1,0 +1,12 @@
+.p-button-sm {
+    font-size: 16px;
+    /* Adjust the font size as needed */
+    padding: 0.25rem 0.5rem;
+    /* Adjust padding for a smaller size */
+}
+
+.cofsearch {
+    border: 1px solid #283895;
+    border-radius: 7px;
+    padding: 9px;
+}

@@ -1,0 +1,29 @@
+.Flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 720px) {
+  .Flex {
+    display: flex;
+    flex-direction: column;
+  }
+
+}
+
+.cofsearch {
+  border: 1px solid #7fcdee;
+  border-radius: 7px;
+  padding: 9px;
+}
+
+:host ::ng-deep {
+  .p-progressbar {
+    height: .5rem;
+    background-color: #D8DADC;
+
+    .p-progressbar-value {
+      background-color: #607D8B;
+    }
+  }
+}
