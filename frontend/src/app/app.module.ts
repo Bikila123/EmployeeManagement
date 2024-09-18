@@ -107,7 +107,8 @@ import { KidistcomponentComponent } from './pages/kidistcomponent/kidistcomponen
     PaginatorModule,
     SkeletonModule,
     PdfViewerModule,
-    ChartModule
+    ChartModule,
+   
   ],
   providers: [
     {

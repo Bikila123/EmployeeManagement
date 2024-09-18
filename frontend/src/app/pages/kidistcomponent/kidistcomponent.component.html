@@ -4,52 +4,51 @@
             <h3 style="color: #283895; text-align: center;">Manage Employees</h3>
         </div>
         <div style="margin-bottom: 15px; text-align: right; margin-right: 20px;">
-            <button pButton pRipple label="Add Employee" icon="pi pi-plus" class="p-button-success p-button-sm"
-                (click)="addEmployee()"></button>
+            <button pButton pRipple label="Add Employee" icon="pi pi-user-plus" class="p-button-success p-button-sm"
+                (click)="showAddDialog()"></button>
         </div>
         <p-table #dt1 [value]="data" responsiveLayout="scroll" [autoLayout]="true" [paginator]="true" [rows]="5"
             [showCurrentPageReport]="true"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [globalFilterFields]="['empid', 'first_name','last_name','unit','position','salary','email','phone']">
+            currentPageReportTemplate="Showing {last} of {totalRecords} entries"
+            [globalFilterFields]="['empid', 'first_name','last_name','unit','position','salary','email','phone','gender','picture','department']">
             [rowsPerPageOptions]="[3, 5, 10]">
 
             <ng-template pTemplate="caption">
                 <div class="Flex">
                     <span class="p-input-icon-left ml-auto">
                         <input pInputText class="cofsearch" type="text" #input
-                            (input)="dt1.filterGlobal(input.value, 'contains')" placeholder="Search Menu" />
+                            (input)="dt1.filterGlobal(input.value, 'contains')" placeholder="Search Employee" />
                     </span> 
                 </div>
             </ng-template>
             <ng-template pTemplate="header">
                 <tr>
                     <th>Employee Id</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Unit</th>
-                    <th>Position</th>
-                    <th>Salary</th>
+                    <th>Full Name</th>
                     <th>Email</th>
                     <th>Phone Number</th>
+                    <th>Department</th>
+                    <th>Position</th>
+                    <th>Salary</th>     
                     <th>Action</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-employees>
                 <tr>
                     <td>{{employees.empid}}</td>
-                    <td>{{employees.first_name}}</td>
-                    <td>{{employees.last_name}}</td>
-                    <td>{{employees.unit}}</td>
-                    <td>{{employees.position}}</td>
-                    <td>{{employees.salary}}</td>
+                    <td>{{employees.first_name}} {{employees.last_name}}</td>
+                    <!-- <td>{{employees.last_name}}</td> -->
                     <td>{{employees.email}}</td>
                     <td>{{employees.phone}}</td>
+                    <!-- <td>{{employees.unit}}</td> -->
+                     <td>{{employees.department}}</td>
+                    <td>{{employees.position}}</td>
+                    <td>{{employees.salary}}</td>  
                     <td>
-                        <p-button icon="pi pi-pencil" styleClass="p-button-sm mr-2 mb-2"
-                            (click)="addEmployee()"></p-button>
-                        <p-button  icon="pi pi-trash" severity="danger" styleClass="p-button-sm mr-2 mb-2"  
-                            (click)="addEmployee()"></p-button>
-                        
+                        <p-button icon="pi pi-user-edit" styleClass="p-button-sm mr-2 mb-2"
+                            (click)="showUpdateDialog(employees)"></p-button>
+                        <p-button  icon="pi pi-info-circle" severity="danger" styleClass="p-button-sm mr-2 mb-2"  
+                         ></p-button>     
                     </td>
                 </tr>
             </ng-template>
@@ -66,7 +65,175 @@
     <p-dialog [(visible)]="visible" header="Add Employee" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
         [maximizable]="true" [modal]="true"
         >
-        <form [formGroup]="form" (ngSubmit)="addEmployee()">
+        <form [formGroup]="form" (ngSubmit)=" onAddEmployee()">
+            <div class="row">
+
+                <!-- employee id-->
+                <div class="form-group col-md-6">
+                    <label for="empid" class="form-label">Employee ID<span class="asteriks">*</span></label>
+                    <input type="text" value="{empid}" formControlName="empid" class="form-control" id="empid" [ngClass]="{
+                                                    'is-invalid': submitted && f['empid'].errors
+                                                }">
+                    <!-- <div *ngIf="empidexists" class="invalid-feedback">
+                        User with this employee ID already exists.
+                    </div>                           -->
+                    <div *ngIf="submitted && f['empid'].errors" class="invalid-feedback">
+                        <div *ngIf="f['empid'].errors?.['required']">
+                            Please, enter emp id
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- First Name-->
+                <div class="form-group col-md-6">
+                    <label for="firstName" class="form-label">First Name<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="first_name" class="form-control" id="firstName" [ngClass]="{
+                                       'is-invalid': submitted && f['first_name'].errors
+                                     }">
+                    <div *ngIf="submitted && f['first_name'].errors" class="invalid-feedback">
+                        <div *ngIf="f['first_name'].errors?.['required']">
+                            Please, enter employees's first name
+                        </div>
+                        <div *ngIf="f['first_name'].errors?.['pattern']">
+                            Please enter a valid first name!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Last Name-->
+                <div class="form-group col-md-6">
+                    <label for="lastName" class="form-label">Last Name<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="last_name" class="form-control" id="lastName" [ngClass]="{
+                                                           'is-invalid': submitted && f['last_name'].errors
+                                                         }">
+                    <div *ngIf="submitted && f['last_name'].errors" class="invalid-feedback">
+                        <div *ngIf="f['last_name'].errors?.['required']">
+                            Please, enter employees's last name
+                        </div>
+                        <div *ngIf="f['last_name'].errors?.['pattern']">
+                            Please enter a valid last name!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Unit-->
+                <div class="form-group col-md-6">
+                    <label for="unit" class="form-label">Unit<span class="asteriks">*</span></label>
+                    <p-dropdown formControlName="unit" [options]="branchdata" optionLabel="name" optionValue="id"
+                        [filter]="true" filterBy="name" id="unit" [virtualScrollItemSize]="30" [virtualScroll]="true"
+                        [style]="{'width':'100%'}" placeholder="select branch" [ngClass]="{
+                            'is-invalid': submitted && f['unit'].errors
+                          }">
+                    </p-dropdown>
+                </div>
+
+                <!-- Job Position-->
+                <div class="form-group col-md-6">
+                    <label for="jobPosition" class="form-label">Job Position<span class="asteriks">*</span></label>
+                    <p-dropdown formControlName="position" [options]="positions" optionLabel="title" optionValue="id"
+                        [virtualScroll]="true" [virtualScrollItemSize]="38" placeholder="Select job position"
+                        [filter]="true" [appendTo]="'body'" [style]="{'width':'100%'}" [ngClass]="{
+                                                        'is-invalid': submitted && f['position'].errors
+                                                      }">
+                    </p-dropdown>
+                    <div *ngIf="submitted && f['position'].errors" class="invalid-feedback">
+                        <div *ngIf="f['position'].errors?.['required']">
+                            Job Position is required!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Salary-->
+                <div class="form-group col-md-6">
+                    <label for="salary" class="form-label">Salary<span class="asteriks">*</span></label>
+                    <input type="text" class="form-control" name="salary" formControlName="salary" id="salary"
+                        [ngClass]="{
+                                                 'is-invalid': submitted && f['salary'].errors
+                                               }" />
+                    <div *ngIf="submitted && f['salary'].errors" class="invalid-feedback">
+                        <div *ngIf="f['salary'].errors?.['required']">
+                            Please, enter emp salary
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email-->
+                <div class="form-group col-md-6">
+                    <label for="email" class="form-label">Email<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="email" class="form-control" id="email" [ngClass]="{
+                                        'is-invalid': submitted && f['email'].errors
+                                      }" required>
+                    <div *ngIf="emailexist" class="invalid-feedback">
+                        Employee with this email already exists. 
+                    </div> 
+
+                    <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                        <div *ngIf="f['email'].errors?.['required']">
+                            email is required.
+                        </div>
+                        <div *ngIf="f['email'].errors?.['email']">
+                            Please enter a valid email!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phone Number-->
+                <div class="form-group col-md-6">
+                    <label for="yourPhone" class="form-label">Phone Number<span class="asteriks">*</span></label>
+                    <input type="text" formControlName="phone" class="form-control" id="yourPhone" [ngClass]="{
+                                        'is-invalid': submitted && f['phone'].errors
+                                      }" required>
+                    <div *ngIf="phoneexist" class="invalid-feedback">
+                        Employee with this phone number already registered!
+                    </div>
+                    <div *ngIf="submitted && f['phone'].errors" class="invalid-feedback">
+                        <div *ngIf="f['phone'].errors?.['required']">
+                            Phone number is required!
+                        </div>
+                        <div *ngIf="f['phone'].errors?.['pattern']">
+                            Please enter a valid phone number which starts with 09, 07 or +251!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-3">
+                    <div class="flex align-items-center">
+                        <p-radioButton 
+                            value="male" 
+                            inputId="gender1" />
+                        <label for="gender" class="ml-2">
+                            Male
+                        </label>
+                    </div>
+                    
+                    <div class="flex align-items-center">
+                        <p-radioButton  
+                            value="female" 
+                            inputId="gender2" />
+                        <label for="gender2" class="ml-2">
+                            Female
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Submit Button-->
+            <div class="modal-footer" style="margin-top: 5px;">
+                <p-button type="submit" icon="pi pi-user-plus" styleClass="p-button-sm p-button-success"
+                    label="Add Employee"></p-button>
+            </div>
+        </form>
+    </p-dialog>
+
+    
+
+    <!-- update employee modal -->
+    <p-dialog [(visible)]="updateVisible" header="Update Employee" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
+        [maximizable]="true" [modal]="true" 
+        >
+        <form [formGroup]="formEmployeeUpdate" (ngSubmit)="onUpdateEmployee()">
             <div class="row">
 
                 <!-- employee id-->
@@ -195,151 +362,12 @@
             </div>
 
             <!-- Submit Button-->
-            <div class="modal-footer" style="margin-top: 5px;">
+            <!-- <div class="modal-footer" style="margin-top: 5px;">
                 <p-button type="submit"  styleClass="p-button-sm p-button-success"
-                    label="save" (click)="addEmployee()" (onClick)="visible = false" ></p-button>
-            </div>
-        </form>
-    </p-dialog>
-
-    
-
-    <!-- update employee modal -->
-    <p-dialog [(visible)]="visible" header="Update Employee" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
-        [maximizable]="true" [modal]="true"
-        >
-        <form [formGroup]="form" (ngSubmit)="updateEmployee()">
-            <div class="row">
-
-                <!-- employee id-->
-                <div class="form-group col-md-6">
-                    <label for="empid" class="form-label">Employee ID<span class="asteriks">*</span></label>
-                    <input type="text" value="empid" formControlName="empid" class="form-control" id="empid" [ngClass]="{
-                                                    'is-invalid': submitted && f['empid'].errors
-                                                }">
-                    <div *ngIf="submitted && f['empid'].errors" class="invalid-feedback">
-                        <div *ngIf="f['empid'].errors?.['required']">
-                            Please, enter emp id
-                        </div>
-                    </div>
-                </div>
-
-                <!-- First Name-->
-                <div class="form-group col-md-6">
-                    <label for="firstName" class="form-label">First Name<span class="asteriks">*</span></label>
-                    <input type="text" formControlName="first_name" class="form-control" id="firstName" [ngClass]="{
-                                       'is-invalid': submitted && f['first_name'].errors
-                                     }">
-                    <div *ngIf="submitted && f['first_name'].errors" class="invalid-feedback">
-                        <div *ngIf="f['first_name'].errors?.['required']">
-                            Please, enter employees's first name
-                        </div>
-                        <div *ngIf="f['first_name'].errors?.['pattern']">
-                            Please enter a valid first name!
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Last Name-->
-                <div class="form-group col-md-6">
-                    <label for="lastName" class="form-label">Last Name<span class="asteriks">*</span></label>
-                    <input type="text" formControlName="last_name" class="form-control" id="lastName" [ngClass]="{
-                                                           'is-invalid': submitted && f['last_name'].errors
-                                                         }">
-                    <div *ngIf="submitted && f['last_name'].errors" class="invalid-feedback">
-                        <div *ngIf="f['last_name'].errors?.['required']">
-                            Please, enter employees's last name
-                        </div>
-                        <div *ngIf="f['last_name'].errors?.['pattern']">
-                            Please enter a valid last name!
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Unit-->
-                <div class="form-group col-md-6">
-                    <label for="unit" class="form-label">Unit<span class="asteriks">*</span></label>
-                    <p-dropdown formControlName="unit" [options]="branchdata" optionLabel="name" optionValue="id"
-                        [filter]="true" filterBy="name" id="unit" [virtualScrollItemSize]="30" [virtualScroll]="true"
-                        [style]="{'width':'100%'}" placeholder="select branch" [ngClass]="{
-                            'is-invalid': submitted && f['unit'].errors
-                          }">
-                    </p-dropdown>
-                </div>
-
-                <!-- Job Position-->
-                <div class="form-group col-md-6">
-                    <label for="jobPosition" class="form-label">Job Position<span class="asteriks">*</span></label>
-                    <p-dropdown formControlName="position" [options]="positions" optionLabel="title" optionValue="id"
-                        [virtualScroll]="true" [virtualScrollItemSize]="38" placeholder="Select job position"
-                        [filter]="true" [appendTo]="'body'" [style]="{'width':'100%'}" [ngClass]="{
-                                                        'is-invalid': submitted && f['position'].errors
-                                                      }">
-                    </p-dropdown>
-                    <div *ngIf="submitted && f['position'].errors" class="invalid-feedback">
-                        <div *ngIf="f['position'].errors?.['required']">
-                            Job Position is required!
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Salary-->
-                <div class="form-group col-md-6">
-                    <label for="salary" class="form-label">Salary<span class="asteriks">*</span></label>
-                    <input type="text" class="form-control" name="salary" formControlName="salary" id="salary"
-                        [ngClass]="{
-                                                 'is-invalid': submitted && f['salary'].errors
-                                               }" />
-                    <div *ngIf="submitted && f['salary'].errors" class="invalid-feedback">
-                        <div *ngIf="f['salary'].errors?.['required']">
-                            Please, enter emp salary
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Email-->
-                <div class="form-group col-md-6">
-                    <label for="email" class="form-label">Email<span class="asteriks">*</span></label>
-                    <input type="text" formControlName="email" class="form-control" id="email" [ngClass]="{
-                                        'is-invalid': submitted && f['email'].errors
-                                      }" required>
-                    <!-- <div *ngIf="emailexist" class="invalid-feedback">
-                        Employee with this email already exists.
-                    </div> -->
-                    <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
-                        <div *ngIf="f['email'].errors?.['required']">
-                            email is required.
-                        </div>
-                        <div *ngIf="f['email'].errors?.['email']">
-                            Please enter a valid email!
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Phone Number-->
-                <div class="form-group col-md-6">
-                    <label for="yourPhone" class="form-label">Phone Number<span class="asteriks">*</span></label>
-                    <input type="text" formControlName="phone" class="form-control" id="yourPhone" [ngClass]="{
-                                        'is-invalid': submitted && f['phone'].errors
-                                      }" required>
-                    <!-- <div *ngIf="phoneexist" class="invalid-feedback">
-                        Employee with this phone number already registered!
-                    </div> -->
-                    <div *ngIf="submitted && f['phone'].errors" class="invalid-feedback">
-                        <div *ngIf="f['phone'].errors?.['required']">
-                            Phone number is required!
-                        </div>
-                        <div *ngIf="f['phone'].errors?.['pattern']">
-                            Please enter a valid phone number which starts with 09, 07 or +251!
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Submit Button-->
-            <div class="modal-footer" style="margin-top: 5px;">
-                <p-button type="submit"  styleClass="p-button-sm p-button-success"
-                    label="save" (click)="addEmployee()" (onClick)="visible = false" ></p-button>
+                    label="save" (click)="onUpdateEmployee()" (onClick)="visible = false" ></p-button>
+            </div> -->
+            <div class="modal-footer">
+                <p-button type="submit" icon="pi pi-pencil" styleClass="p-button-sm" label="Update Employee"></p-button>
             </div>
         </form>
     </p-dialog>

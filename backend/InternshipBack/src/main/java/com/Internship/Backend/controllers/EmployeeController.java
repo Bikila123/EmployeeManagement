@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Internship.Backend.models.BranchModel;
+import com.Internship.Backend.models.DepartmentModel;
 import com.Internship.Backend.models.EmployeeModel;
 import com.Internship.Backend.models.JobPositionModel;
 import com.Internship.Backend.payload.response.MessageResponse;
@@ -36,6 +37,7 @@ public class EmployeeController {
    public ResponseEntity<MessageResponse> addEmployee(@RequestBody EmployeeModel data){
        String message;
        try {
+    	   service.generateEmployeeId();
            service.addEmployee(data);
            message = "Employee Added Successfully";
            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
@@ -111,4 +113,17 @@ public class EmployeeController {
 		   
 	   }
    }
+   
+   @GetMapping("/getDepartment")
+   public ResponseEntity<List<DepartmentModel>> getDepartment(){
+	   try{
+		   List<DepartmentModel> dpt = service.getDepartment();
+		   return new ResponseEntity<>(dpt,HttpStatus.OK);
+	   }catch(Exception e) {
+		   logger.error("error on get department", e);
+		   return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+		   
+	   }
+   }
+   
 }
