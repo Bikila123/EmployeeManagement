@@ -52,6 +52,7 @@ import { WebhomeComponent } from './webbook/webhome/webhome.component';
 import { AddBookComponent } from './webbook/Book/add-book/add-book.component';
 import { ManageBookComponent } from './webbook/Book/manage-book/manage-book.component';
 import { KidistcomponentComponent } from './pages/kidistcomponent/kidistcomponent.component';
+import { EmployeeProfile } from './pages/employee-profile/employee-profile';
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,7 +61,7 @@ import { KidistcomponentComponent } from './pages/kidistcomponent/kidistcomponen
     SidebarComponent,
     DashboardComponent,
     UsersProfileComponent,
-     PagesLoginComponent,
+    PagesLoginComponent,
     PagesError404Component,
     PagesBlankComponent,
     PageUserComponent,
@@ -108,6 +109,7 @@ import { KidistcomponentComponent } from './pages/kidistcomponent/kidistcomponen
     SkeletonModule,
     PdfViewerModule,
     ChartModule,
+    EmployeeProfile
    
   ],
   providers: [

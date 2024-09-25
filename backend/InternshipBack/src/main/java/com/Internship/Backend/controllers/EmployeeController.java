@@ -1,6 +1,7 @@
 package com.Internship.Backend.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Internship.Backend.mappers.EmployeeIdMapper;
 import com.Internship.Backend.models.BranchModel;
 import com.Internship.Backend.models.DepartmentModel;
+import com.Internship.Backend.models.EmployeeIdTracker;
 import com.Internship.Backend.models.EmployeeModel;
 import com.Internship.Backend.models.JobPositionModel;
 import com.Internship.Backend.payload.response.MessageResponse;
@@ -32,13 +35,20 @@ public class EmployeeController {
 
    @Autowired
    EmployeeService service;
+   @Autowired
+   EmployeeIdMapper idmapper;
    
    @PostMapping("/addEmployee")
    public ResponseEntity<MessageResponse> addEmployee(@RequestBody EmployeeModel data){
        String message;
        try {
-    	   service.generateEmployeeId();
-           service.addEmployee(data);
+    	   System.out.println("request reached");
+//    	   String empid = service.generateEmployeeId();
+//    	   data.setEmpid(empid);
+//    	   System.out.println("Employee ID:"+empid);
+//           service.addEmployee(data);
+    	   EmployeeIdTracker emps = service.getLastNum();
+    	   System.out.println(emps);
            message = "Employee Added Successfully";
            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
        } catch (Exception e) {
@@ -125,5 +135,17 @@ public class EmployeeController {
 		   
 	   }
    }
+//   @GetMapping("/getLastNum/{year}")
+//   public ResponseEntity<Integer> getLastNum(@PathVariable int year){
+//	   try {
+//		   EmployeeIdTracker number = idmapper.getLastNum(year);
+//		   return new ResponseEntity<>(number.getLastEmployeeNumber(),HttpStatus.OK);
+//	   }catch(Exception e) {
+//		   logger.error("error on get last num", e);
+//		   return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+//	   
+//	   }
+//	 
+//   }
    
 }

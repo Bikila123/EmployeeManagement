@@ -1,3 +1,6 @@
+main{
+  background: linear-gradient(180deg, #9fc8f8,#f8a941);
+}
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
@@ -15,9 +18,9 @@ table {
     /* max-width: 100%; */
    }
 
-   .Flex{
+.Flex{
     display: flex; 
-   justify-content: space-between;
+   /* justify-content: space-between; */
 }
 
 .cofsearch
@@ -33,3 +36,8 @@ table {
   padding: 0.25rem 0.5rem;
   /* Adjust padding for a smaller size */
 }
+
+.file{
+  outline: none;
+}
+

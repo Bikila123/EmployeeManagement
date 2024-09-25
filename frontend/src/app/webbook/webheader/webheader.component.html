@@ -1,29 +1,41 @@
 <header>
   <div class="container">
-    <div class="row">
-      <div class="col-md-3 col-sm-3 c0l-3">
         <div class="logo-container">
-          <img src="assets/img/golden_book.jpg" alt="" class="logo">
+          <img src="assets/img/AB_reverse_vertical_logo_noback.png" alt="logo" class="logo">
         </div>
+
+      <div class="header-menu-bar">
+        <ul>
+          <li class="list">
+            <a href="#">
+              <p-button  class="icon" icon="pi pi-home" ></p-button>  
+              <span class="text">Home</span>
+              <span class="circle"></span>
+            </a>
+          </li>
+          <li class="list">
+            <a href="#">
+              <p-button  class="icon" icon="pi pi-phone" ></p-button>  
+              <span class="text">Contact</span>
+              <span class="circle"></span>
+            </a>
+          </li>
+          <li class="list">
+            <a href="#">
+              <p-button  class="icon" icon="pi pi-info-circle" ></p-button>  
+              <span class="text">About</span>
+              <span class="circle"></span>
+            </a>
+          </li>
+          <li class="list">
+            <a routerLink="/pages-login">
+              <p-button  class="icon" icon="pi pi-sign-in" ></p-button>  
+              <span class="text">Login</span>
+              <span class="circle"></span>
+            </a>
+          </li>
+        </ul>
       </div>
-      <div class="col-md-9 col-sm-9 col-9">
-        <div class="menu-icon">
-          <i class="bi bi-list">
-           
-          </i>
-        </div>
-        <div class="desktop_menu">
-          <ul>
-            <i class="bi bi-house-fill"></i>
-            <li>Home</li> 
-            <li>Books</li>
-            <li>Store</li>
-            <li>Event</li>
-            <li>Contact</li>
-            <li><a routerLink="/pages-login">Login</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
+
   </div>
 </header>

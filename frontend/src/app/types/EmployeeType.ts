@@ -7,4 +7,7 @@ export class EmployeeType{
     salary:number;
     email:string;
     phone:string;
+    gender:string;
+    picture: MediaImage;
+    department:string;
 }

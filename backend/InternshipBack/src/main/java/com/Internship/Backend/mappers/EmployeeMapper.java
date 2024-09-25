@@ -34,5 +34,7 @@ public interface EmployeeMapper {
 
 	@Update("update tbl_employee set  first_name = #{first_name}, last_name = #{last_name}, unit = #{unit}, position =#{position}, salary = #{salary}, email = #{email}, phone = #{phone}, gender=#{gender}, department = #{department} where empid=#{empid} ")
 	void updateEmployee(EmployeeModel data);
+	
+	
 
 }

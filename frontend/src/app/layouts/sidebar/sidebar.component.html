@@ -1,4 +1,4 @@
-<aside id="sidebar" class="sidebar" style="background-color: rgb(44, 42, 150);">
+<!-- <aside id="sidebar" class="sidebar" style="background-color: rgb(44, 42, 150);">
     <ul class="sidebar-nav" id="sidebar-nav" >
          <li class="nav-item" > <a class="nav-link " style="background-color:  rgb(96, 17, 148); color: white;" routerLink="/dashboard"> <i class="bi bi-grid" style="color: white;"></i> <span>Dashboard</span> </a></li>
          <li class="nav-item" *ngFor="let menu of menus; let i=index" >
@@ -8,4 +8,29 @@
             </ul>
          </li>
     </ul>
- </aside>
+ </aside> -->
+<main>
+ <div class="onlyiconsidebar">
+   <div class="sidebar">
+      <div class="sidebar-holder">
+         <ul class="sidebar-nav">
+            <li routerLink="/dashboard">
+               <span><i class="bi bi-grid" style="color: black;"></i></span>
+               <span class="text">Dashboard</span>
+            </li>
+
+            <li routerLink="/manageemployee">
+               <span><i class="pi pi-users" style="color: black;"></i></span>
+                  <span class="text">Manage Employee</span>    
+            </li>
+
+            <li>
+               <span><i class="pi pi-sitemap" style="color: black;"></i></span>
+               <span class="text">Department</span>    
+            </li>
+         </ul>
+      </div>
+   </div>
+ </div>
+</main>
+ 

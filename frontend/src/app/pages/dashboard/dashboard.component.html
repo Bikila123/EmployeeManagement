@@ -1,0 +1,32 @@
+<main class="main">
+    <section class="section dashboard" style="margin-top: 75px; margin-left: auto;">
+    <div class="container">
+        <div class="top-section ">
+            <div class="left">
+                <div class="card-body-left">
+                    <div class="message">
+                        <h4 class="text">Total Employees </h4>
+                        <h4 class="num">150</h4>
+                    </div>
+                    <div class="chart">
+                        <div class="card flex justify-content-center">
+                            <p-chart type="doughnut" [data]="data" [options]="options" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body-right">
+                    
+                </div>
+            </div>
+            <div class="right">
+            </div>
+        </div>
+        <div class="bottom-section">
+            <div class="card">
+                <p-chart type="line" [data]="data" [options]="options" />
+            </div>
+        </div>
+
+    </div>
+    </section>
+</main>

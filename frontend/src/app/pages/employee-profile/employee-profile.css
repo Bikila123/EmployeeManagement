@@ -1,0 +1,59 @@
+main{ 
+    margin:0;
+    padding:0;
+    margin-top: -15px;
+    background:linear-gradient(180deg, #9fc8f8,#f8a941);
+    background-size: cover;
+    align-items: center;
+    min-height: 750px;
+}
+.text{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+
+
+}
+.label{
+    color:rgb(141, 141, 136);
+    font-weight: 400;
+    text-align: left;
+
+}
+.value{
+    color:black;
+    font-weight: 400;
+    text-align: right;
+}
+.container{
+   
+    align-items: center;
+    padding:2px;
+    margin-left: 300px;
+    width:75%;
+
+
+}
+.card-body{
+    margin-top:10px;
+  
+}
+.rating{
+    background-color: #f8a941;
+    align-items: center;
+    width:auto;
+    margin-left: 20px;
+    margin-top: 20px;
+
+}
+
+p-rating-star{
+    color:blue;
+    background-color: red;
+
+}
+p-rating-star-on{
+    color:yellow;
+    background-color:black;
+}
