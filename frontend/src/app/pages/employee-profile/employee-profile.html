@@ -1,0 +1,39 @@
+<main>
+    <section class="section profile" style="margin-top: 75px; margin-left: auto;">
+        <div class="container">
+                <div class="card-body">
+                    <div class="card flex justify-content-center">
+                        <p-card header="Employee Information" subheader="employee name" style="width: 300px; ">
+                            <ng-template pTemplate="header">
+                                <img alt="Card" src="../../../assets/img/images.jpg" />
+                            </ng-template>
+                                <div class="text"> 
+                                    <span class="label">Name:</span>
+                                    <span class="value">name of emp</span>
+                                </div>
+                                <div class="text"> 
+                                    <span class="label">Email:</span>
+                                    <span class="value">@gmail.com</span>
+                                </div>
+                                <div class="text"> 
+                                    <span class="label">Phone Number:</span>
+                                    <span class="value">phone num</span>
+                                </div>
+                                <div class="text"> 
+                                    <span class="label">Position:</span>
+                                    <span class="value">job position</span>
+                                </div>
+                            
+                                <div class="card flex justify-content-center ">
+                                    <form [formGroup]="formGroup" class="rating">
+                                        <p-rating formControlName="value"  />
+                                    </form>
+                                </div>
+                           
+                        </p-card>
+                    </div>
+
+                </div>
+        </div>
+    </section>
+</main>

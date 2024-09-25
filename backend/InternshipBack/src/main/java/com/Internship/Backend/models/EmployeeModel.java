@@ -1,6 +1,9 @@
 package com.Internship.Backend.models;
 
+import java.awt.Image;
 import java.io.Serializable;
+
+import com.lowagie.text.pdf.codec.PngImage;
 
 public class EmployeeModel implements Serializable { //to transform this class to different types of strings 
 	private String empid;
@@ -11,11 +14,19 @@ public class EmployeeModel implements Serializable { //to transform this class t
 	private Double salary;
 	private String email;
 	private String phone;
+	private String gender;
+//	private Image picture;
+	private int department;
+	private long id;
+	
+	
+	private String initial;
+	private String ending;
 	
 	public EmployeeModel() {
 		super();
 	}
-	public EmployeeModel(String empid, String first_name, String last_name, int unit, int position, Double salary, String email, String phone) {
+	public EmployeeModel(String empid, String first_name, String last_name, int unit, int position, Double salary, String email, String phone, String gender, int department) {
 		super();
 		this.empid = empid;
 		this.first_name = first_name;
@@ -25,11 +36,35 @@ public class EmployeeModel implements Serializable { //to transform this class t
 		this.salary = salary;
 		this.email = email;
 		this.phone = phone;
+		this.gender = gender;
+	//	this.picture = picture;
+		this.department = department;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+//	public Image getPicture() {
+//		return picture;
+//	}
+//	public void setPicture(Image picture) {
+//		this.picture = picture;
+//	}
+	public int getDepartment() {
+		return department;
+	}
+	public void setDepartment(int department) {
+		this.department = department;
 	}
 	public String getEmpid() {
 		return empid;
 	}
 	public void setEmpid(String empid) {
+//		initial = "AB/";
+//		ending = "/2024";
+//		this.empid = initial +"num" +ending;
 		this.empid = empid;
 	}
 	public String getFirst_name() {
