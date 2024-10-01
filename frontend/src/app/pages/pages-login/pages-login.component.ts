@@ -181,7 +181,7 @@ export class PagesLoginComponent implements OnInit {
             this.isLoginFailed = false;
             this.isLoggedIn = true;
             this.roles = this.storageService.getUser().roles;
-            this._router.navigate(["/manageemployee"]);
+            this._router.navigate(["/dashboard"]);
             this.logintext = "Login";
             sessionStorage.removeItem("jwt-expiry");
             this.showErrorMessage=false;

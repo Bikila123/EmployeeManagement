@@ -15,18 +15,15 @@ public class EmployeeModel implements Serializable { //to transform this class t
 	private String email;
 	private String phone;
 	private String gender;
-//	private Image picture;
+	private byte[] picture;
 	private int department;
-	private long id;
 	
 	
-	private String initial;
-	private String ending;
 	
 	public EmployeeModel() {
 		super();
 	}
-	public EmployeeModel(String empid, String first_name, String last_name, int unit, int position, Double salary, String email, String phone, String gender, int department) {
+	public EmployeeModel(String empid, String first_name, String last_name, int unit, int position, Double salary, String email, String phone, String gender, byte[] picture, int department) {
 		super();
 		this.empid = empid;
 		this.first_name = first_name;
@@ -37,7 +34,7 @@ public class EmployeeModel implements Serializable { //to transform this class t
 		this.email = email;
 		this.phone = phone;
 		this.gender = gender;
-	//	this.picture = picture;
+		this.picture = picture;
 		this.department = department;
 	}
 	public String getGender() {
@@ -45,26 +42,11 @@ public class EmployeeModel implements Serializable { //to transform this class t
 	}
 	public void setGender(String gender) {
 		this.gender = gender;
-	}
-//	public Image getPicture() {
-//		return picture;
-//	}
-//	public void setPicture(Image picture) {
-//		this.picture = picture;
-//	}
-	public int getDepartment() {
-		return department;
-	}
-	public void setDepartment(int department) {
-		this.department = department;
-	}
+	}	
 	public String getEmpid() {
 		return empid;
 	}
 	public void setEmpid(String empid) {
-//		initial = "AB/";
-//		ending = "/2024";
-//		this.empid = initial +"num" +ending;
 		this.empid = empid;
 	}
 	public String getFirst_name() {
@@ -108,6 +90,18 @@ public class EmployeeModel implements Serializable { //to transform this class t
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public byte[] getPicture() {
+		return picture;
+	}
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
+	}
+	public int getDepartment() {
+		return department;
+	}
+	public void setDepartment(int department) {
+		this.department = department;
 	}
 	
 }

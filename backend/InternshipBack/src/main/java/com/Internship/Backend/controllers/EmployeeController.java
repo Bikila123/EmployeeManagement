@@ -43,12 +43,10 @@ public class EmployeeController {
        String message;
        try {
     	   System.out.println("request reached");
-//    	   String empid = service.generateEmployeeId();
-//    	   data.setEmpid(empid);
-//    	   System.out.println("Employee ID:"+empid);
-//           service.addEmployee(data);
-    	   EmployeeIdTracker emps = service.getLastNum();
-    	   System.out.println(emps);
+    	   String empid = service.generateEmployeeId();
+    	   data.setEmpid(empid);
+    	   System.out.println("Employee ID:"+empid);
+           service.addEmployee(data);
            message = "Employee Added Successfully";
            return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse(message));
        } catch (Exception e) {

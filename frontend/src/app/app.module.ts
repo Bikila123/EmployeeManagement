@@ -53,6 +53,7 @@ import { AddBookComponent } from './webbook/Book/add-book/add-book.component';
 import { ManageBookComponent } from './webbook/Book/manage-book/manage-book.component';
 import { KidistcomponentComponent } from './pages/kidistcomponent/kidistcomponent.component';
 import { EmployeeProfile } from './pages/employee-profile/employee-profile';
+import { DepartmentComponent } from './pages/department/departmentComponent';
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,6 +79,7 @@ import { EmployeeProfile } from './pages/employee-profile/employee-profile';
     WebfooterComponent,
     WebhomeComponent,
     KidistcomponentComponent,
+    DepartmentComponent
     
   ],
   imports: [

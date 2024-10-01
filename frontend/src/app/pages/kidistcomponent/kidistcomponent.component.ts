@@ -9,12 +9,14 @@ import { PositionType } from 'app/types/PositionType';
 import Swal from 'sweetalert2';
 import { StorageService } from '../pages-login/storage.service';
 import { DepartmentType } from 'app/types/DepartmentType';
+import { Message } from 'primeng/api';
+import { MessagesModule } from 'primeng/messages';
 
 
 @Component({
   selector: 'app-kidistcomponent',
   templateUrl: './kidistcomponent.component.html',
-  styleUrls: ['./kidistcomponent.component.css']
+  styleUrls: ['./kidistcomponent.component.css'],
 })
 export class KidistcomponentComponent {
 
@@ -38,7 +40,8 @@ export class KidistcomponentComponent {
   departmentName: string;
   selectedFile: File;
   imageName: any;
- 
+  employeeInfoVisible: boolean = false;
+  messages: Message[] ;
 
   constructor(
     private service: KidistService,
@@ -59,8 +62,9 @@ export class KidistcomponentComponent {
         salary: ['', Validators.required],
         email: ['', [Validators.required, ]],
         phone: ['', [Validators.required, Validators.pattern('^(\\+2519|\\+2517|09|07)[0-9]{8}$'), ]],
-        gender: ['',Validators.required],
-        department: ['', Validators.required]
+        gender: [''],
+        picture:[''],
+        department: ['']
       }
     );
     this.formEmployeeUpdate = this.formBuilder.group(
@@ -72,8 +76,8 @@ export class KidistcomponentComponent {
         salary: ['', Validators.required],
         email: ['', Validators.required],
         phone: ['', Validators.required],
-        gender: ['',Validators.required],
-        department: ['', Validators.required]
+        gender: [''],
+        department: ['']
 
       }
     );
@@ -153,35 +157,31 @@ export class KidistcomponentComponent {
   onAddEmployee() {
     this.submitted = true;
     this.visible = true;
-    console.log(this.selectedFile);
-    const uploadImageData = new FormData();
-    uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name);
+    // console.log(this.selectedFile);
+    // const uploadImageData = new FormData();
+    // uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name);
+    console.log("request reached function");
     if (this.form.valid) {
+      console.log("the frorm is valid");
       this.service.addEmployee(this.form.value).subscribe(
         (EmployeeType) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Employee has been saved',
-            showConfirmButton: true,
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#3B71CA',
-            position: 'top-right',
-          });
+          this.visible=false;
           this.getEmployees();
           this.submitted = false;
+          this.messages=[
+            {severity: 'success', summary: 'Success', detail:'Employee Added Successfuly'}
+          ]
         },
         (error: HttpErrorResponse) => {
           this.visible = false;
           this.submitted = false;
-              Swal.fire({
-                icon: 'error',
-                title: 'Employee could not be saved',
-                showConfirmButton: true,
-                confirmButtonText: 'OK',
-                confirmButtonColor: '#3B71CA',
-              });
+          this.messages=[
+            {severity: 'error', detail:' Unable to add employee'}
+          ]
         }
       );
+    }else{
+      console.log("the form is invalid");
     }
   }
   //gets called when the user selects an image
@@ -234,6 +234,11 @@ export class KidistcomponentComponent {
     this.updateVisible = true;
     this.formEmployeeUpdate.patchValue(payload);
   }
+    showempinfo(){
+      this.employeeInfoVisible=true;
+    }
+  
+
 
   onUpdateEmployee(): void {
     this.updatesubmitted = true;
@@ -241,26 +246,18 @@ export class KidistcomponentComponent {
       this.service.updateEmployee(this.formEmployeeUpdate.value).subscribe(
         (EmployeeType): void => {
           this.updateVisible = false;
-          Swal.fire({
-            icon: 'success',
-            title: 'Employee data has been updated',
-            showConfirmButton: true,
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#3B71CA',
-          });
+          this.messages=[
+            {severity: 'success', summary: 'Success', detail:'Employee Updated Successfuly'}
+          ]
           this.getEmployees();
           this.updatesubmitted = false;
         },
         (error: HttpErrorResponse) => {
           this.updateVisible = false;
           this.updatesubmitted = false;
-          Swal.fire({
-            icon: 'error',
-            title: 'Employee data could not be updated',
-            showConfirmButton: true,
-            confirmButtonText: 'OK',
-            confirmButtonColor: '#3B71CA',
-          });
+          this.messages=[
+            {severity: 'error', detail:' Unable to update employee'}
+          ]
         }
       );
     }

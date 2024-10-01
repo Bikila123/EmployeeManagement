@@ -1,55 +1,77 @@
 .main{
     margin:0;
     padding:0;
-    margin-top: -15px;
     background:linear-gradient(180deg, #9fc8f8,#f8a941);
     background-size: cover;
     align-items: center;
          
 }
+.card{
+    background:linear-gradient(180deg, #aacef7,#f1c386);
+}
+
 .Flex{
     display: flex; 
-   justify-content: space-between;
+    justify-content: space-between;
 }
 .container{
-    width: auto;
-    height:100vh;
+    width: 100%;
+    height:100%;
     border-collapse: collapse;
+    /* background-color: aqua; */
+    align-items: center;
 }
 .top-section{
     margin:0;
-    margin-left: 190px;
-    padding:10px;
+    /* margin-left: 190px; */
+    padding:1px;
     width:60%;
-    height:40%;
+    height:30%;
     justify-content: space-between;
     display: flex;
-    background-color: #9fc8f8;
+    /* background-color: #257adb; */
 
 }
+.left{
+    display:flex;
+    justify-content: space-between;
+}
 .card-body-left{
-    width:300px;
-    height:100%;
-    margin:0;
+    width:250px;
+    height:96%;
+    margin:1%;
     padding:1%;
-    background-color: #fff;
+    background-color: #fff; 
+    align-items: center;
+    align-content: center;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+.card-body-middle{
+    width:250px;
+    height:96%;
+    margin:1%;
+    padding:1%;
+    background-color: #fff; 
     align-items: center;
     align-content: center;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
 }
 .card-body-right{
-    width:300px;
-    height:100%;
-    /* margin:0;
-    padding:1%; */
-    /* background-color: #8a6262; */
+    width:250px;
+    height:96%;
+    margin:1%;
+    padding:1%;
+    background-color: #fff; 
     align-items: center;
     align-content: center;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
 
 }
+
 .message{
     padding: 0;
     margin:0;
@@ -75,15 +97,37 @@ h4 .text{
     margin:auto;
     
 }
-
+/* 
 .right{
     
     width:400px;
     height:auto;
-    /* background-color: #d48686; */
+    background-color: #abe0a9; 
 
+} */
+
+.middle-section{
+    width:650px;
+    height:250px;
+    margin:1%;
+    padding:1%;
+    /* background-color: #fff;  */
+    align-items: center;
+    align-content: center;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    overflow: hidden; 
+ 
 }
 .bottom-section{
-    width:50%;
-    height:50%;
+    width:100%;
+    height:250px;
+    margin:1%;
+    padding:1%;
+     /* background-color: #fff;  */
+     align-items: center;
+     align-content: center;
+     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+     border-radius: 5px;
+  
 }

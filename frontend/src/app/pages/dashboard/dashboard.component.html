@@ -1,32 +1,52 @@
-<main class="main">
-    <section class="section dashboard" style="margin-top: 75px; margin-left: auto;">
-    <div class="container">
-        <div class="top-section ">
-            <div class="left">
-                <div class="card-body-left">
-                    <div class="message">
-                        <h4 class="text">Total Employees </h4>
-                        <h4 class="num">150</h4>
+<main id="main" class="main">
+    <div class="card">
+        <div class="container">
+            <div class="top-section ">
+                <div class="left">
+                    <div class="card-body-left">
+                        <div class="message">
+                            <h6 class="text">Total Employees </h6>
+                            <h6 class="num">4</h6>
+                        </div>
+                        <div class="pi pi-users">
+
+                        </div>
                     </div>
-                    <div class="chart">
-                        <div class="card flex justify-content-center">
-                            <p-chart type="doughnut" [data]="data" [options]="options" />
+                    <div class="card-body-middle">
+                        <div class="message">
+                            <h6 class="text">New Joined Employees </h6>
+                            <h6 class="num">0</h6>
+                        </div>
+                        <div class="pi pi-user-plus">
+                            
+                        </div>
+                    </div>
+                    <div class="card-body-right">
+                        <div class="message">
+                            <h6 class="text">Resigned Employees </h6>
+                            <h6 class="num">0</h6>
+                        </div>
+                        <div class="pi pi-sign-out">
+                            
                         </div>
                     </div>
                 </div>
-                <div class="card-body-right">
-                    
+                <div class="right">
                 </div>
             </div>
-            <div class="right">
+
+            <div class="middle-section">
+                <div class="card">
+                    <p-chart type="line" [data]="data" [options]="options" />
+                </div>
+                
             </div>
-        </div>
-        <div class="bottom-section">
-            <div class="card">
-                <p-chart type="line" [data]="data" [options]="options" />
+
+            <div class="bottom-section">
+              
             </div>
+
         </div>
 
     </div>
-    </section>
 </main>

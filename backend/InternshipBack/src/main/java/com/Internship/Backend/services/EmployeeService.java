@@ -19,6 +19,7 @@ import com.Internship.Backend.models.JobPositionModel;
 public class EmployeeService {
 	@Autowired
 	EmployeeMapper mapper;
+	@Autowired
 	EmployeeIdMapper idmapper;
 
 	public void addEmployee(EmployeeModel data) {
@@ -52,35 +53,35 @@ public class EmployeeService {
 	public List<DepartmentModel>  getDepartment(){
 		return mapper.getDepartment();
 	}
-	public EmployeeIdTracker getLastNum() {
-		return idmapper.getLastNum();
+	public Integer getLastNum(Integer year) {
+		return idmapper.getLastNum(year);
 	}
 	public void addEmployeeId(int year, int last_number) {
 		idmapper.addEmployeeId(year, last_number);
 	}
 	
-	 /*public String generateEmployeeId() {
+	public String generateEmployeeId() {
 		 try {
 	        // Get current year
 	        int year = LocalDate.now().getYear();
 	        System.out.println("requested year :"+year);
 
 	        // Get the last employee number from the database (for the current year)
-	        List<EmployeeIdTracker> last_number = idmapper.getLastNum();
-	        System.out.println("last_number gainded: "+last_number.get(0));
-	        Integer newEmployeeNumber=0;
-	        if (last_number.size()!=0) {
-	        	 // Increment the last employee number by 1
-//	            Integer newEmployeeNumber ;
-	        	newEmployeeNumber=last_number.get(0).getLast_employee_number()+1;
+	        Integer last_number = idmapper.getLastNum(year);
+	        System.out.println("last number gainded: "+last_number);
+	        Integer newEmployeeNumber;
+	        if (last_number==null) {
+	        // Initialize if no record for the current year
+	            newEmployeeNumber= 10000;
 	            addEmployeeId(year, newEmployeeNumber); 
-
 	        }
 	        else 
 	        {
-	            // Initialize if no record for the current year
-	            newEmployeeNumber= 10000;
+	        // Increment the last employee number by 1
+//	            Integer newEmployeeNumber ;
+	        	newEmployeeNumber=last_number+1;
 	            addEmployeeId(year, newEmployeeNumber); 
+
 	         }
 
 	        // employee ID format : AB/10000/2024
@@ -94,5 +95,5 @@ public class EmployeeService {
 	    	String error ="unable1";
 	    	return error;
 	    }
-	 }*/
+	 }
 }

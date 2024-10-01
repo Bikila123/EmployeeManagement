@@ -14,7 +14,7 @@ import com.Internship.Backend.models.DepartmentModel;
 
 public interface EmployeeMapper {
 
-	@Insert("insert into tbl_employee(empid, first_name, last_name, unit, position, salary, email, phone, gender, department) values(#{empid}, #{first_name}, #{last_name}, #{unit}, #{position}, #{salary}, #{email}, #{phone}, #{gender}, #{department})")
+	@Insert("insert into tbl_employee(empid, first_name, last_name, unit, position, salary, email, phone, gender, picture, department) values(#{empid}, #{first_name}, #{last_name}, #{unit}, #{position}, #{salary}, #{email}, #{phone}, #{gender}, #{picture}, #{department})")
 	void addEmployee(EmployeeModel data);
 
 	@Select("select * from tbl_employee")

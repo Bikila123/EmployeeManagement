@@ -8,6 +8,5 @@ export class EmployeeType{
     email:string;
     phone:string;
     gender:string;
-    picture: MediaImage;
     department:string;
 }

@@ -1,4 +1,7 @@
 <main id="main" class="main">
+    <div class="card-message">
+        <p-messages [(value)]="messages" [showTransitionOptions]="'500ms'" [hideTransitionOptions]="'500ms'" [enableService]="false"/>
+    </div>
     <div class="card" id="tblmu">
         <div style="margin-top: 80px;margin-bottom: 10px;">
             <h3 style="color: #283895; text-align: center;">Manage Employees</h3>
@@ -10,7 +13,7 @@
         <p-table #dt1 [value]="data" responsiveLayout="scroll" [autoLayout]="true" [paginator]="true" [rows]="5"
             [showCurrentPageReport]="true"
             currentPageReportTemplate="Showing {last} of {totalRecords} entries"
-            [globalFilterFields]="['empid', 'first_name','last_name','unit','position','salary','email','phone','gender','picture','department']">
+            [globalFilterFields]="['empid', 'first_name','last_name','unit','position','salary','email','phone','gender','department']">
             [rowsPerPageOptions]="[3, 5, 10]">
 
             <ng-template pTemplate="caption">
@@ -47,8 +50,8 @@
                     <td>
                         <p-button icon="pi pi-user-edit" styleClass="p-button-sm mr-2 mb-2"
                             (click)="showUpdateDialog(employees)"></p-button>
-                        <p-button  icon="pi pi-info-circle" severity="danger" styleClass="p-button-sm mr-2 mb-2" [routerLink]="['/emplyeeprofile']" routerLinkActive="router-link-active"  
-                         ></p-button>     
+                        <p-button  icon="pi pi-info-circle" styleClass="p-button-sm mr-2 mb-2"  [routerLink]="['/emplyeeprofile']" routerLinkActive="router-link-active"  
+                     ></p-button>     
                     </td>
                 </tr>
             </ng-template>
@@ -65,7 +68,7 @@
     <p-dialog [(visible)]="visible" header="Add Employee" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
         [maximizable]="true" [modal]="true" class="dialog"
         >
-        <form [formGroup]="form" (ngSubmit)=" onAddEmployee()">
+        <form [formGroup]="form" (ngSubmit)="onAddEmployee()">
             <div class="row">
 
                 <!-- First Name-->
@@ -203,7 +206,7 @@
                  </div> -->
                    
                  <!-- department -->
-                <div class="form-group col-md-6">
+                <!-- <div class="form-group col-md-6">
                     <label for="department" class="form-label">Department<span class="asteriks"></span></label>
                     <p-dropdown formControlName="department" [options]="department" optionLabel="title" optionValue="id"
                         [virtualScroll]="true" [virtualScrollItemSize]="38" placeholder="Select department"
@@ -211,18 +214,18 @@
                                                         'is-invalid': submitted && f['department'].errors
                                                       }">
                     </p-dropdown>
-                    <!-- <div *ngIf="submitted && f['department'].errors" class="invalid-feedback">
+                    <div *ngIf="submitted && f['department'].errors" class="invalid-feedback">
                         <div *ngIf="f['department'].errors?.['required']">
                             Department is required!
                         </div>
-                    </div> -->
-                </div>
+                    </div> 
+                </div> -->
 
             </div>
             <!-- Submit Button-->
             <div class="modal-footer" style="margin-top: 5px;">
                 <p-button type="submit" icon="pi pi-user-plus" styleClass="p-button-sm p-button-info"
-                    label="Add Employee" (onclick)=" onAddEmployee()"></p-button>
+                    label="Add Employee"></p-button>
             </div>
         </form>
     </p-dialog>
@@ -349,4 +352,43 @@
             </div>
         </form>
     </p-dialog>
+
+    <!-- employee info modal
+    <p-dialog [(visible)]="employeeInfoVisible" header="Employee Information" [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
+        [maximizable]="true" [modal]="true" 
+        >
+        <p-card header="Employee Information" subheader="employee name" style="width: 300px; ">
+            <ng-template pTemplate="header">
+                <img alt="Card" src="../../../assets/img/images.jpg" />
+            </ng-template>
+            <ng-template  pTemplate="body" let-employees>
+                <div class="text"> 
+                    <span class="label">Name:</span>
+                    <span class="value">{{employees.first_name}}</span>
+                </div>
+                <div class="text"> 
+                    <span class="label">Email:</span>
+                    <span class="value">{{employees.email}}</span>
+                </div>
+                <div class="text"> 
+                    <span class="label">Phone Number: </span>
+                    <span class="value">{{employees.phone}}</span>
+                </div>
+                <div class="text"> 
+                    <span class="label">Position:</span>
+                    <span class="value">{{employees.position}}</span>
+                </div>
+            
+                <div class="card flex justify-content-center ">
+                     <form [formGroup]="formGroup" class="rating">
+                        <p-rating formControlName="value"  />
+                    </form> 
+                </div>
+            </ng-template>
+           
+        </p-card>
+
+    </p-dialog> -->
+   
+
 </main>

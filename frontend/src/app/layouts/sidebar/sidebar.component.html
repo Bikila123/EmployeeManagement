@@ -1,14 +1,4 @@
-<!-- <aside id="sidebar" class="sidebar" style="background-color: rgb(44, 42, 150);">
-    <ul class="sidebar-nav" id="sidebar-nav" >
-         <li class="nav-item" > <a class="nav-link " style="background-color:  rgb(96, 17, 148); color: white;" routerLink="/dashboard"> <i class="bi bi-grid" style="color: white;"></i> <span>Dashboard</span> </a></li>
-         <li class="nav-item" *ngFor="let menu of menus; let i=index" >
-            <a class="nav-link collapsed" style="background-color:  rgb(44, 42, 150); color: white;" [attr.data-bs-target]="'#nav' + i" data-bs-toggle="collapse" href="#"> <i class="{{menu.parent_icon}} " style="color: white;"></i><span>{{menu.parent_item_name}}</span><i class="bi bi-chevron-down ms-auto"></i> </a>
-            <ul id="nav{{i}}" class="nav-content collapse " data-bs-parent="#sidebar-nav" *ngFor="let submenu of menu.menus ">
-               <li> <a routerLink="{{submenu.link}}"> <i class="{{submenu.icon}}" style="color: white;" ></i><span>{{submenu.item_name}}</span> </a></li>
-            </ul>
-         </li>
-    </ul>
- </aside> -->
+
 <main>
  <div class="onlyiconsidebar">
    <div class="sidebar">
@@ -24,7 +14,7 @@
                   <span class="text">Manage Employee</span>    
             </li>
 
-            <li>
+            <li routerLink="/managedepartment">
                <span><i class="pi pi-sitemap" style="color: black;"></i></span>
                <span class="text">Department</span>    
             </li>

@@ -3,6 +3,8 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { RatingModule } from 'primeng/rating'
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+// import { KidistcomponentComponent } from '../kidistcomponent/kidistcomponent.component.ts';
+
         
 @Component({
     selector: 'employee-profile',
@@ -19,5 +21,6 @@ export class EmployeeProfile {
             value: new FormControl(4)
         });
     }
+
 }
 
